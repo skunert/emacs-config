@@ -5,6 +5,7 @@
 (after! rustic
   (map! :map rustic-mode-map :localleader ("o" #'rustic-open-dependency-file))
   (setq rustic-lsp-server 'rust-analyzer)
+  (setq rustic-format-trigger 'on-save)
 )
 
 (after! lsp-rust
@@ -15,11 +16,10 @@
   (setq lsp-auto-guess-root t)
 
   (setq lsp-enable-file-watchers nil)
-  ;; (setq lsp-rust-analyzer-cargo-override-command [ "rust-analyzer-cargo-check" ])
-  (setq lsp-rust-analyzer-proc-macro-enable t)
+  ;; (setq lsp-rust-analyzer-proc-macro-enable t)
   (setq lsp-rust-analyzer-diagnostics-disabled ["unresolved-proc-macro" "unresolved-import"])
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
-  (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+  (setq lsp-rust-analyzer-cargo-watch-command "check")
   (evil-define-key 'normal rustic-mode-map
     "J" #'lsp-rust-analyzer-join-lines)
 
@@ -31,14 +31,22 @@
   (setq lsp-idle-delay 0.500)
 )
 
+(use-package! evil
+  :config
+  (setq! evil-want-C-d-scroll nil
+         evil-want-C-u-scroll nil)
+)
+
 (use-package! inertial-scroll)
 (map! "C-j" #'inertias-up)
 (map! "C-k" #'inertias-down)
+(map! "C-d" #'inertias-up)
+(map! "C-u" #'inertias-down)
 (after! inertial-scroll
  (setq inertias-update-time 20)
- (setq inertias-initial-velocity 120)
- (setq inertias-friction 300)
- (setq inertias-brake-coef 0.4)
+ (setq inertias-initial-velocity 200)
+ (setq inertias-friction 450)
+ (setq inertias-brake-coef 0.2)
 )
 
 
