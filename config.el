@@ -8,6 +8,11 @@
   (setq rustic-format-trigger 'on-save)
 )
 
+(use-package! lsp-rust
+  :config
+  (setq lsp-rust-analyzer-server-display-inlay-hints t)
+)
+
 (after! lsp-rust
   ;; disable the eldoc stuff
   (setq lsp-eldoc-hook nil)
@@ -17,11 +22,12 @@
 
   (setq lsp-enable-file-watchers nil)
   ;; (setq lsp-rust-analyzer-proc-macro-enable t)
-  (setq lsp-rust-analyzer-diagnostics-disabled ["unresolved-proc-macro" "unresolved-import"])
+  (setq lsp-rust-analyzer-diagnostics-disabled ["unresolved-macro" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
   (setq lsp-rust-analyzer-cargo-watch-command "check")
   (evil-define-key 'normal rustic-mode-map
     "J" #'lsp-rust-analyzer-join-lines)
+  (lsp-rust-analyzer-inlay-hints-mode 1)
 
   ; Performance
   ; Use roughly one gigabyte
@@ -38,8 +44,8 @@
 )
 
 (use-package! inertial-scroll)
-(map! "C-j" #'inertias-up)
-(map! "C-k" #'inertias-down)
+(map! "C-j" #'evil-scroll-line-down)
+(map! "C-k" #'evil-scroll-line-up)
 (map! "C-d" #'inertias-up)
 (map! "C-u" #'inertias-down)
 (after! inertial-scroll
@@ -49,20 +55,26 @@
  (setq inertias-brake-coef 0.2)
 )
 
+(defun +private/treemacs-back-and-forth ()
+  (interactive)
+  (if (treemacs-is-treemacs-window-selected?)
+      (aw-flip-window)
+    (treemacs-select-window)))
+
+(map! :after treemacs
+      :leader
+      :desc "Switch to treemacs sidebar and back"
+      :n "-" #'+private/treemacs-back-and-forth)
+
+(map! :leader
+      :desc "Toggle full screen"
+      :n "t F" #'toggle-frame-maximized)
 
 (use-package! treemacs
   :config
   (treemacs-follow-mode 1)
 )
 
-
-(defun toggle-rust-sidebar ()
-  "Toggle treemacs and symbol view"
-  (treemacs)
-  (lsp-treemacs-symbols)
-)
-
-(map! :leader :desc "Open file tree and structure" "y" (lambda () (interactive) (toggle-rust-sidebar)))
 
 (setq doom-theme 'doom-oceanic-next)
 
@@ -105,3 +117,5 @@
 (after! company
   ;; Trigger completion immediately.
   (setq company-idle-delay 0))
+
+(setenv "SSH_AUTH_SOCK" "/Users/skunert/.gnupg/S.gpg-agent.ssh")
