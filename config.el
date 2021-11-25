@@ -70,6 +70,10 @@
       :desc "Toggle full screen"
       :n "t F" #'toggle-frame-maximized)
 
+(after! vertico
+  (vertico-posframe-mode 1)
+  (setq marginalia-margin-threshold 400)
+)
 (use-package! treemacs
   :config
   (treemacs-follow-mode 1)

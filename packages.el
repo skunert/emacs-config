@@ -56,3 +56,4 @@
   :recipe (:host github :repo "cyrus-and/zoom"))
 
 (package! magit-delta)
+(package! vertico-posframe)
