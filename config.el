@@ -16,7 +16,6 @@
 (after! lsp-rust
   ;; disable the eldoc stuff
   (setq lsp-eldoc-hook nil)
-  (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-rust-analyzer-use-client-watching nil)
   (setq lsp-auto-guess-root t)
 
@@ -35,12 +34,22 @@
   ; 1MB
   (setq read-process-output-max (* 1024 1024))
   (setq lsp-idle-delay 0.500)
+  (map! :leader
+        :mode rustic-mode
+        :desc "View file symbols"
+        :n "s i" #'consult-lsp-file-symbols)
 )
 
 (use-package! evil
   :config
   (setq! evil-want-C-d-scroll nil
-         evil-want-C-u-scroll nil)
+         evil-want-C-u-scroll nil
+         evil-kill-on-visual-paste nil)
+)
+
+(after! vertico
+  (map! :map minibuffer-local-map
+        "C-e" #'+vertico/embark-export-write)
 )
 
 (use-package! inertial-scroll)
@@ -55,25 +64,23 @@
  (setq inertias-brake-coef 0.2)
 )
 
-(defun +private/treemacs-back-and-forth ()
-  (interactive)
-  (if (treemacs-is-treemacs-window-selected?)
-      (aw-flip-window)
-    (treemacs-select-window)))
-
-(map! :after treemacs
-      :leader
-      :desc "Switch to treemacs sidebar and back"
-      :n "-" #'+private/treemacs-back-and-forth)
-
 (map! :leader
       :desc "Toggle full screen"
       :n "t F" #'toggle-frame-maximized)
 
-(after! vertico
+(use-package! vertico-posframe
+  :init
+  (setq vertico-posframe-border-width 4)
+  (setq vertico-posframe-width 300)
+  (setq vertico-posframe-parameters
+        '((left-fringe . 8)
+          (right-fringe . 8)))
+  ;; NOTE: this is needed to make sure marginalia columns don't get misaligned
+  (setq marginalia-margin-threshold 500)
+  :config
   (vertico-posframe-mode 1)
-  (setq marginalia-margin-threshold 400)
 )
+
 (use-package! treemacs
   :config
   (treemacs-follow-mode 1)
