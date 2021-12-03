@@ -44,6 +44,7 @@
   :config
   (setq! evil-want-C-d-scroll nil
          evil-want-C-u-scroll nil
+         evil-snipe-scope 'visible
          evil-kill-on-visual-paste nil)
 )
 
@@ -68,6 +69,16 @@
       :desc "Toggle full screen"
       :n "t F" #'toggle-frame-maximized)
 
+(map! :leader
+      :desc "Replace with anzu"
+      :n "s r" #'anzu-query-replace)
+
+(after! deadgrep
+  (map! :leader
+        :desc "Search with deadgrep"
+        :n "s d" #'deadgrep)
+)
+
 (use-package! vertico-posframe
   :init
   (setq vertico-posframe-border-width 4)
@@ -86,21 +97,11 @@
   (treemacs-follow-mode 1)
 )
 
-
 (setq doom-theme 'doom-oceanic-next)
 
 (setq doom-font (font-spec :family "Fira Code" :size 14))
 
 (setq display-line-numbers-type 'relative)
-
-(setq show-trailing-whitespace t)
-
-;; Enable global whitespace mode
-(global-whitespace-mode 1)
-
-(add-hook 'diff-mode-hook 'whitespace-mode)
-
-(setq whitespace-style '(face tabs tab-mark spaces space-mark trailing lines-tail))
 
 ;; Make flycheck use direnv to get the correct env for finding an executable
 ;; We also need to enable `envrc-mode` manually for this buffer to make sure we set the

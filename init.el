@@ -68,6 +68,7 @@
        (magit +forge)             ; a git porcelain for Emacs
        ;; pass              ; password manager for nerds
        pdf
+       (debugger +lsp)
 
        :lang
        cc                ; C/C++/Obj-C madness

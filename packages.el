@@ -57,3 +57,4 @@
 
 (package! magit-delta)
 (package! vertico-posframe)
+(package! deadgrep)
