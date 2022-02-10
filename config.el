@@ -5,13 +5,24 @@
 (after! rustic
   (map! :map rustic-mode-map :localleader ("o" #'rustic-open-dependency-file))
   (setq rustic-lsp-server 'rust-analyzer)
-  (setq rustic-format-trigger 'on-save)
+  (setq rustic-format-on-save t)
 )
 
 (use-package! lsp-rust
   :config
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
 )
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-doc-show-with-mouse nil)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-max-height 14)
+)
+
+
 
 (after! lsp-rust
   ;; disable the eldoc stuff
@@ -21,7 +32,7 @@
 
   (setq lsp-enable-file-watchers nil)
   ;; (setq lsp-rust-analyzer-proc-macro-enable t)
-  (setq lsp-rust-analyzer-diagnostics-disabled ["unresolved-macro" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
+  (setq lsp-rust-analyzer-diagnostics-disabled ["macro-error" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
   (setq lsp-rust-analyzer-cargo-watch-command "check")
   (evil-define-key 'normal rustic-mode-map
@@ -38,13 +49,18 @@
         :mode rustic-mode
         :desc "View file symbols"
         :n "s i" #'consult-lsp-file-symbols)
+
+  (map! :leader
+        :mode rustic-mode
+        :desc "Add cargo dependency"
+        :n "m a" #'rustic-cargo-add)
 )
 
 (use-package! evil
   :config
-  (setq! evil-want-C-d-scroll nil
-         evil-want-C-u-scroll nil
-         evil-snipe-scope 'visible
+  (setq! evil-snipe-scope 'visible
+         ;; evil-want-C-d-scroll nil
+         ;; evil-want-C-u-scroll nil
          evil-kill-on-visual-paste nil)
 )
 
@@ -56,8 +72,8 @@
 (use-package! inertial-scroll)
 (map! "C-j" #'evil-scroll-line-down)
 (map! "C-k" #'evil-scroll-line-up)
-(map! "C-d" #'inertias-up)
-(map! "C-u" #'inertias-down)
+;; (map! "C-d" #'inertias-up)
+;; (map! "C-u" #'inertias-down)
 (after! inertial-scroll
  (setq inertias-update-time 20)
  (setq inertias-initial-velocity 200)
@@ -73,16 +89,15 @@
       :desc "Replace with anzu"
       :n "s r" #'anzu-query-replace)
 
-(after! deadgrep
   (map! :leader
         :desc "Search with deadgrep"
         :n "s d" #'deadgrep)
-)
 
 (use-package! vertico-posframe
   :init
   (setq vertico-posframe-border-width 4)
   (setq vertico-posframe-width 300)
+  (setq vertico-posframe-poshandler 'posframe-poshandler-frame-center)
   (setq vertico-posframe-parameters
         '((left-fringe . 8)
           (right-fringe . 8)))
@@ -97,7 +112,7 @@
   (treemacs-follow-mode 1)
 )
 
-(setq doom-theme 'doom-oceanic-next)
+(setq doom-theme 'doom-dark+)
 
 (setq doom-font (font-spec :family "Fira Code" :size 14))
 
