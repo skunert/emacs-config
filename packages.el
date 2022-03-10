@@ -58,3 +58,5 @@
 (package! magit-delta)
 (package! vertico-posframe)
 (package! deadgrep)
+(package! tree-sitter)
+(package! tree-sitter-langs)
