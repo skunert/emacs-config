@@ -55,7 +55,11 @@
 (package! zoom
   :recipe (:host github :repo "cyrus-and/zoom"))
 
+(package! bookmark+
+  :recipe (:host github :repo "emacsmirror/bookmark-plus"))
+
 (package! magit-delta)
+(package! just-mode)
 (package! vertico-posframe)
 (package! deadgrep)
 (package! tree-sitter)
