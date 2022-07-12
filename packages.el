@@ -58,9 +58,12 @@
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
 
+(package! catppuccin-theme
+  :recipe (:host github :repo "catppuccin/emacs"))
+
 (package! magit-delta)
 (package! just-mode)
 (package! vertico-posframe)
 (package! deadgrep)
-(package! tree-sitter)
-(package! tree-sitter-langs)
+;; (package! tree-sitter)
+;; (package! tree-sitter-langs)

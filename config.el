@@ -34,16 +34,16 @@
   (setq lsp-enable-file-watchers nil)
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-headerline-breadcrumb-mode 1)
-  (setq lsp-headerline-breadcrumb-segments '(file symbols))
+  ;; (setq lsp-headerline-breadcrumb-segments '(file symbols))
   (setq lsp-rust-analyzer-proc-macro-enable nil)
+  (setq lsp-response-timeout 20)
   (setq lsp-rust-analyzer-lru-capacity 256)
   (setq lsp-rust-analyzer-diagnostics-disabled ["macro-error" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
   (setq lsp-rust-analyzer-cargo-watch-command "")
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
   (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir .rust-analyzer-target --tests --workspace"])
-  (evil-define-key 'normal rustic-mode-map
-    "J" #'lsp-rust-analyzer-join-lines)
+  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
   (lsp-rust-analyzer-inlay-hints-mode 1)
 
                                         ; Performance
@@ -128,18 +128,15 @@
   :config
   (treemacs-follow-mode 1)
   )
+(use-package catppuccin-theme
+ :config
+ (setq catppuccin-height-title1 1.5))
 
 (setq doom-theme 'doom-moonlight)
 
-(setq doom-font (font-spec :family "Fira Code" :size 14))
+(setq doom-font (font-spec :family "Fira Code" :size 16))
 
 (setq display-line-numbers-type 'relative)
-
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 ;; Make flycheck use direnv to get the correct env for finding an executable
 ;; We also need to enable `envrc-mode` manually for this buffer to make sure we set the
@@ -157,7 +154,8 @@
 
 (use-package! magit-delta
   :hook (magit-mode . magit-delta-mode))
-;; (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
+(add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
+;; (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
 

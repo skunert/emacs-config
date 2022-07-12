@@ -6,7 +6,7 @@
  '(bmkp-last-as-first-bookmark-file "~/.emacs.d/.local/etc/bookmarks")
  '(counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
  '(custom-safe-themes
-   '("745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" default))
+   '("025acf94eb56f1b569f853f77effb1aa5006947a9df3a913f52fcb8daf9a15b2" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" default))
  '(projectile-globally-ignored-directories
    '("~/.emacs.d/.local/" ".idea" ".ensime_cache" ".eunit" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "target"))
  '(projectile-globally-ignored-files '(".DS_Store" "Icon
