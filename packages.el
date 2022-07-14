@@ -61,9 +61,13 @@
 (package! catppuccin-theme
   :recipe (:host github :repo "catppuccin/emacs"))
 
+(package! vterm-toggle
+  :recipe (:host github :repo "jixiuf/vterm-toggle"))
+
+(package! bufler
+  :recipe (:host github :repo "alphapapa/bufler.el"))
+
 (package! magit-delta)
 (package! just-mode)
 (package! vertico-posframe)
 (package! deadgrep)
-;; (package! tree-sitter)
-;; (package! tree-sitter-langs)

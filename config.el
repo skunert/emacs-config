@@ -76,6 +76,10 @@
         "C-e" #'+vertico/embark-export-write)
   )
 
+(after! orderless
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism orderless-prefixes))
+)
+
 (map! "C-j" #'evil-scroll-line-down)
 (map! "C-k" #'evil-scroll-line-up)
 ;; (map! "C-d" #'inertias-up)
@@ -98,6 +102,35 @@
 (map! :leader
       :desc "Search with deadgrep"
       :n "s R" #'deadgrep)
+
+(use-package! bufler
+  :config
+  (setq! bufler-workspace-mode t)
+  (map! :leader
+        :desc "Bufler switch buffer"
+        :n "b B" #'bufler-switch-buffer)
+
+)
+
+(use-package! vterm-toggle
+  :config
+  (setq! vterm-toggle-fullscreen-p t)
+  (map! :leader
+        :desc "Toggle vterm window"
+        :n "v t" #'vterm-toggle)
+
+  (map! :leader
+        :desc "Toggle vterm window"
+        :n "v n" #'vterm-toggle-forward)
+
+  (map! :leader
+        :desc "Toggle vterm window"
+        :n "v b" #'vterm-toggle-backward)
+
+  (map! :leader
+        :desc "Toggle vterm window"
+        :n "o T" #'vterm-toggle)
+  )
 
 (use-package! bookmark+
   :init
@@ -155,12 +188,9 @@
 (use-package! magit-delta
   :hook (magit-mode . magit-delta-mode))
 (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
-;; (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
+(add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
-
-;;(after! prog-mode
-;;  (set-company-backend! 'prog-mode 'company-abbrev-code))
 
 ;; Save all buffers before searching a project
 (advice-add #'+default/search-project :before (lambda (&rest _) (evil-write-all nil)))
