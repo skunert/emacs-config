@@ -114,7 +114,21 @@
 
 (use-package! vterm-toggle
   :config
-  (setq! vterm-toggle-fullscreen-p t)
+  (setq! vterm-toggle-fullscreen-p nil)
+  (setq! vterm-toggle-reset-window-configration-after-exit t)
+  (setq! vterm-toggle-hide-method 'reset-window-configration)
+  ;; Display vterm in current buffer
+  (add-to-list 'display-buffer-alist
+             '((lambda (buffer-or-name _)
+                   (let ((buffer (get-buffer buffer-or-name)))
+                     (with-current-buffer buffer
+                       (or (equal major-mode 'vterm-mode)
+                           (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+         (display-buffer-reuse-window display-buffer-same-window)))
+
+  (map! :desc "Toggle vterm window"
+        :n [f12] #'vterm-toggle)
+
   (map! :leader
         :desc "Toggle vterm window"
         :n "v t" #'vterm-toggle)
@@ -126,10 +140,6 @@
   (map! :leader
         :desc "Toggle vterm window"
         :n "v b" #'vterm-toggle-backward)
-
-  (map! :leader
-        :desc "Toggle vterm window"
-        :n "o T" #'vterm-toggle)
   )
 
 (use-package! bookmark+
@@ -161,13 +171,17 @@
   :config
   (treemacs-follow-mode 1)
   )
-(use-package catppuccin-theme
+(use-package! catppuccin-theme
  :config
  (setq catppuccin-height-title1 1.5))
 
+(use-package! obsidian
+ :config
+ (setq obsidian-directory "~/Documents/notes-git/notes"))
+
 (setq doom-theme 'doom-moonlight)
 
-(setq doom-font (font-spec :family "Fira Code" :size 16))
+(setq doom-font (font-spec :family "Fira Code" :size 13))
 
 (setq display-line-numbers-type 'relative)
 

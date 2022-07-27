@@ -67,6 +67,9 @@
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
 
+(package! obsidian
+  :recipe (:host github :repo "licht1stein/obsidian.el"))
+
 (package! magit-delta)
 (package! just-mode)
 (package! vertico-posframe)
