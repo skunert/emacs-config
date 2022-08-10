@@ -77,19 +77,20 @@
   )
 
 (after! orderless
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism orderless-prefixes))
+  ;; (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism orderless-prefixes))
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp))
 )
 
 (map! "C-j" #'evil-scroll-line-down)
 (map! "C-k" #'evil-scroll-line-up)
-;; (map! "C-d" #'inertias-up)
-;; (map! "C-u" #'inertias-down)
 (after! inertial-scroll
   (setq inertias-update-time 20)
   (setq inertias-initial-velocity 200)
   (setq inertias-friction 450)
   (setq inertias-brake-coef 0.2)
-  )
+  (map! "C-d" #'inertias-up)
+  (map! "C-u" #'inertias-down)
+)
 
 (map! :leader
       :desc "Toggle full screen"
@@ -97,7 +98,7 @@
 
 (map! :leader
       :desc "Replace with anzu"
-      :n "s r" #'anzu-query-replace)
+      :n "s r" #'anzu-query-replace-regexp)
 
 (map! :leader
       :desc "Search with deadgrep"
@@ -112,19 +113,36 @@
 
 )
 
+(use-package! tempel
+  :config
+  (setq! global-tempel-abbrev-mode 1)
+  (map! :leader
+      :desc "Complete with temple"
+      :n "v c" #'tempel-expand)
+
+  (map! :map tempel-map
+        "C-l" #'tempel-next)
+
+  (map! :map tempel-map
+        "C-h" #'tempel-previous)
+)
+
+
 (use-package! vterm-toggle
   :config
   (setq! vterm-toggle-fullscreen-p nil)
   (setq! vterm-toggle-reset-window-configration-after-exit t)
   (setq! vterm-toggle-hide-method 'reset-window-configration)
   ;; Display vterm in current buffer
-  (add-to-list 'display-buffer-alist
-             '((lambda (buffer-or-name _)
-                   (let ((buffer (get-buffer buffer-or-name)))
-                     (with-current-buffer buffer
-                       (or (equal major-mode 'vterm-mode)
-                           (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-         (display-buffer-reuse-window display-buffer-same-window)))
+  (add-to-list '+popup--display-buffer-alist
+           '((lambda (buffer-or-name _)
+                 (let ((buffer (get-buffer buffer-or-name)))
+                   (with-current-buffer buffer
+                     (or (equal major-mode 'vterm-mode)
+                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+       (display-buffer-reuse-window display-buffer-same-window))
+  )
+
 
   (map! :desc "Toggle vterm window"
         :n [f12] #'vterm-toggle)
@@ -134,13 +152,19 @@
         :n "v t" #'vterm-toggle)
 
   (map! :leader
-        :desc "Toggle vterm window"
+        :desc "Next vterm window"
         :n "v n" #'vterm-toggle-forward)
 
   (map! :leader
-        :desc "Toggle vterm window"
+        :desc "Previous vterm window"
         :n "v b" #'vterm-toggle-backward)
-  )
+)
+
+(after! vterm
+  (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay)
+  ;; vterm should not be allowed to mess with out cursor https://github.com/akermu/emacs-libvterm/issues/313#issuecomment-1183650463
+  (advice-add #'vterm--redraw :around (lambda (fun &rest args) (let ((cursor-type cursor-type)) (apply fun args))))
+)
 
 (use-package! bookmark+
   :init
@@ -153,6 +177,9 @@
       :desc "Edit bookmark tag"
       :n "m T" #'bmkp-edit-tags)
   )
+
+(use-package! minibuffer-header)
+
 (use-package! vertico-posframe
   :init
   (setq vertico-posframe-border-width 4)
@@ -170,10 +197,8 @@
 (use-package! treemacs
   :config
   (treemacs-follow-mode 1)
-  )
-(use-package! catppuccin-theme
- :config
- (setq catppuccin-height-title1 1.5))
+  (treemacs-project-follow-mode 1)
+)
 
 (use-package! obsidian
  :config
@@ -246,3 +271,5 @@
 (with-eval-after-load 'dap-mode
   (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   (dap-auto-configure-mode +1))
+
+(toggle-frame-maximized)

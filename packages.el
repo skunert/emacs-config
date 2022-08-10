@@ -49,17 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! intertial-scroll
-  :recipe (:host github :repo "kiwanami/emacs-inertial-scroll"))
-
-(package! zoom
-  :recipe (:host github :repo "cyrus-and/zoom"))
-
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
-
-(package! catppuccin-theme
-  :recipe (:host github :repo "catppuccin/emacs"))
 
 (package! vterm-toggle
   :recipe (:host github :repo "jixiuf/vterm-toggle"))
@@ -70,7 +61,19 @@
 (package! obsidian
   :recipe (:host github :repo "licht1stein/obsidian.el"))
 
+(package! tempel)
 (package! magit-delta)
 (package! just-mode)
 (package! vertico-posframe)
 (package! deadgrep)
+
+;; === Disabled packages
+
+;; Fuzzy finder
+(package! affe
+  :disable t)
+
+
+(package! minibuffer-header
+  :recipe (:host github :repo "rougier/minibuffer-header")
+  :disable t)
