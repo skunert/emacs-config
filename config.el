@@ -30,6 +30,7 @@
   (setq lsp-eldoc-hook nil)
   (setq lsp-rust-analyzer-use-client-watching nil)
   (setq lsp-auto-guess-root t)
+  (setq lsp-auto-execute-action nil)
 
   (setq lsp-enable-file-watchers nil)
   (setq lsp-headerline-breadcrumb-enable t)
@@ -133,15 +134,6 @@
   (setq! vterm-toggle-fullscreen-p nil)
   (setq! vterm-toggle-reset-window-configration-after-exit t)
   (setq! vterm-toggle-hide-method 'reset-window-configration)
-  ;; Display vterm in current buffer
-  (add-to-list '+popup--display-buffer-alist
-           '((lambda (buffer-or-name _)
-                 (let ((buffer (get-buffer buffer-or-name)))
-                   (with-current-buffer buffer
-                     (or (equal major-mode 'vterm-mode)
-                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-       (display-buffer-reuse-window display-buffer-same-window))
-  )
 
 
   (map! :desc "Toggle vterm window"
@@ -250,7 +242,7 @@
 (with-eval-after-load 'lsp-rust
   (require 'dap-cpptools)
   (require 'dap-gdb-lldb)
-  )
+)
 
 (with-eval-after-load 'dap-cpptools
   ;; Add a template specific for debugging Rust programs.
@@ -271,5 +263,24 @@
 (with-eval-after-load 'dap-mode
   (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   (dap-auto-configure-mode +1))
+
+  ;; Display vterm in current buffer
+  (add-to-list 'display-buffer-alist
+           '((lambda (buffer-or-name _)
+                 (let ((buffer (get-buffer buffer-or-name)))
+                   (with-current-buffer buffer
+                     (or (equal major-mode 'vterm-mode)
+                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+       (display-buffer-reuse-window display-buffer-same-window))
+  )
+  ;; Display vterm in current buffer
+  (add-to-list '+popup--display-buffer-alist
+           '((lambda (buffer-or-name _)
+                 (let ((buffer (get-buffer buffer-or-name)))
+                   (with-current-buffer buffer
+                     (or (equal major-mode 'vterm-mode)
+                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+       (display-buffer-reuse-window display-buffer-same-window))
+  )
 
 (toggle-frame-maximized)
