@@ -66,6 +66,7 @@
 (package! just-mode)
 (package! vertico-posframe)
 (package! deadgrep)
+(package! elgrep)
 
 ;; === Disabled packages
 

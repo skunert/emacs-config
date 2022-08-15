@@ -75,6 +75,8 @@
 (after! vertico
   (map! :map minibuffer-local-map
         "C-e" #'+vertico/embark-export-write)
+  (map! :map minibuffer-local-map
+        "C-h" #'embark-bindings)
   )
 
 (after! orderless
@@ -128,7 +130,6 @@
         "C-h" #'tempel-previous)
 )
 
-
 (use-package! vterm-toggle
   :config
   (setq! vterm-toggle-fullscreen-p nil)
@@ -156,6 +157,27 @@
   (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay)
   ;; vterm should not be allowed to mess with out cursor https://github.com/akermu/emacs-libvterm/issues/313#issuecomment-1183650463
   (advice-add #'vterm--redraw :around (lambda (fun &rest args) (let ((cursor-type cursor-type)) (apply fun args))))
+
+  (set-popup-rule! "^\\*vterm" :ignore t)
+
+  ;; Display vterm in current buffer
+  (add-to-list 'display-buffer-alist
+           '((lambda (buffer-or-name _)
+                 (let ((buffer (get-buffer buffer-or-name)))
+                   (with-current-buffer buffer
+                     (or (equal major-mode 'vterm-mode)
+                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+       (display-buffer-reuse-window display-buffer-same-window))
+  )
+
+  (add-to-list '+popup--display-buffer-alist
+           '((lambda (buffer-or-name _)
+                 (let ((buffer (get-buffer buffer-or-name)))
+                   (with-current-buffer buffer
+                     (or (equal major-mode 'vterm-mode)
+                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+       (display-buffer-reuse-window display-buffer-same-window))
+  )
 )
 
 (use-package! bookmark+
@@ -217,9 +239,13 @@
 (add-hook 'focus-out-hook 'save-all)
 
 (use-package! magit-delta
+  :config
+  (add-to-list 'magit-delta-delta-args "--no-gitconfig")
   :hook (magit-mode . magit-delta-mode))
+
 (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
 (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
+(add-hook 'rustic-mode-hook (lambda () (smartparens-mode nil)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
 
@@ -264,23 +290,6 @@
   (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   (dap-auto-configure-mode +1))
 
-  ;; Display vterm in current buffer
-  (add-to-list 'display-buffer-alist
-           '((lambda (buffer-or-name _)
-                 (let ((buffer (get-buffer buffer-or-name)))
-                   (with-current-buffer buffer
-                     (or (equal major-mode 'vterm-mode)
-                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-       (display-buffer-reuse-window display-buffer-same-window))
-  )
-  ;; Display vterm in current buffer
-  (add-to-list '+popup--display-buffer-alist
-           '((lambda (buffer-or-name _)
-                 (let ((buffer (get-buffer buffer-or-name)))
-                   (with-current-buffer buffer
-                     (or (equal major-mode 'vterm-mode)
-                         (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
-       (display-buffer-reuse-window display-buffer-same-window))
-  )
-
 (toggle-frame-maximized)
+
+(smartparens-global-mode nil)
