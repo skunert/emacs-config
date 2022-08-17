@@ -133,7 +133,7 @@
 (use-package! vterm-toggle
   :config
   (setq! vterm-toggle-fullscreen-p nil)
-  (setq! vterm-toggle-reset-window-configration-after-exit t)
+  ;; (setq! vterm-toggle-reset-window-configration-after-exit t)
   (setq! vterm-toggle-hide-method 'reset-window-configration)
 
 
@@ -240,10 +240,11 @@
 
 (use-package! magit-delta
   :config
-  (add-to-list 'magit-delta-delta-args "--no-gitconfig")
-  :hook (magit-mode . magit-delta-mode))
+  ;; (add-to-list 'magit-delta-delta-args "--no-gitconfig")
+  ;; :hook (magit-mode . magit-delta-mode)
+  )
 
-(add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
+;; (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
 (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
 (add-hook 'rustic-mode-hook (lambda () (smartparens-mode nil)))
 ;; Autosave to the file directly
@@ -260,6 +261,11 @@
 
 (setq dap-cpptools-extension-version "1.5.1")
 
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\justfile\\'" . just-mode))

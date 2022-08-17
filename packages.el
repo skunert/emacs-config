@@ -70,6 +70,8 @@
 
 ;; === Disabled packages
 
+(package! turbo-log :recipe (:host github :repo "artawower/turbo-log") :disable t)
+
 ;; Fuzzy finder
 (package! affe
   :disable t)
