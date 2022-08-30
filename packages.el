@@ -61,10 +61,13 @@
 (package! obsidian
   :recipe (:host github :repo "licht1stein/obsidian.el"))
 
+(package! org-excalidraw
+  :recipe (:host github :repo "wdavew/org-excalidraw")
+)
+
 (package! tempel)
 (package! magit-delta)
 (package! just-mode)
-(package! vertico-posframe)
 (package! deadgrep)
 (package! elgrep)
 

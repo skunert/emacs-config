@@ -12,7 +12,7 @@
 
        :completion
        (company +childframe)
-       (vertico +icons)
+       (vertico +icons +childframe)
 
        :ui
        doom              ; what makes DOOM look the way it does
@@ -29,11 +29,11 @@
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
-       vc-gutter         ; vcs diff in the fringe
+       (vc-gutter +pretty)         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       window-select     ; visually switch windows
+       ;; window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
-       ;; zen
+       zen
 
        :term
        vterm
@@ -62,7 +62,7 @@
        tree-sitter
        editorconfig      ; let someone else argue about tabs vs spaces
        (eval +overlay)     ; run code, run (also, repls)
-       gist              ; interacting with github gists
+       ;; gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
        lsp
@@ -80,7 +80,7 @@
        (markdown +grip)          ; writing docs for people to ignore
        ;; nix               ; I hereby declare "nix geht mehr!"
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       (javscript +lsp)
+       ;; (javscript +lsp)
        web
        sh                ; she sells {ba,z,fi}sh shells on the C xor
        (org +dragndrop +pretty +roam2 +gnuplot +journal)

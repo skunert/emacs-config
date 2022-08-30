@@ -7,12 +7,8 @@
   (setq rustic-lsp-server 'rust-analyzer)
   (setq rustic-format-on-save t)
   (setq rustic-analyzer-command '("rust-analyzer-wrapper"))
-  )
-
-;; (use-package! lsp-rust
-;;   :config
-;;   (setq lsp-rust-analyzer-server-display-inlay-hints nil)
-;; )
+  (smartparens-mode nil)
+)
 
 (use-package! lsp-ui
   :config
@@ -22,7 +18,6 @@
   (setq lsp-ui-doc-show-with-cursor t)
   (setq lsp-ui-doc-max-height 14)
   )
-
 
 
 (after! lsp-rust
@@ -47,12 +42,11 @@
   (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
   (lsp-rust-analyzer-inlay-hints-mode 1)
 
-                                        ; Performance
-                                        ; Use roughly one gigabyte
   (setq gc-cons-threshold 1000000000)
+  (setq message-log-max 3000)
                                         ; 1MB
   (setq read-process-output-max (* 2048 1024))
-  (setq lsp-idle-delay 0.500)
+  (setq lsp-idle-delay 1.0)
   (map! :leader
         :mode rustic-mode
         :desc "View file symbols"
@@ -67,8 +61,6 @@
 (use-package! evil
   :config
   (setq! evil-snipe-scope 'visible
-         ;; evil-want-C-d-scroll nil
-         ;; evil-want-C-u-scroll nil
          evil-kill-on-visual-paste nil)
   )
 
@@ -79,8 +71,24 @@
         "C-h" #'embark-bindings)
   )
 
+(after! org-roam
+  (setq org-agenda-files '("~/org/roam/daily/" "~/org/journal"))
+  (setq org-hide-emphasis-markers t)
+)
+
+(after! writeroom-mode
+  (setq writeroom-width 90)
+)
+
+(add-hook 'org-mode-hook(lambda () (company-mode nil) (writeroom-mode 1) (display-line-numbers-mode nil)))
+(add-hook 'writeroom-mode-hook(lambda () (text-scale-decrease 2)))
+
+(use-package! org-excalidraw
+  :config
+  (setq org-excalidraw-directory "~/org/excalidraw")
+)
+
 (after! orderless
-  ;; (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism orderless-prefixes))
   (setq orderless-matching-styles '(orderless-literal orderless-regexp))
 )
 
@@ -121,7 +129,14 @@
   (setq! global-tempel-abbrev-mode 1)
   (map! :leader
       :desc "Complete with temple"
-      :n "v c" #'tempel-expand)
+      :n "v t e" #'tempel-expand)
+  (map! :leader
+      :desc "Insert with temple"
+      :n "v t i" #'tempel-insert)
+
+  (map! :leader
+      :desc "Insert with temple"
+      :n "v t d" #'tempel-done)
 
   (map! :map tempel-map
         "C-l" #'tempel-next)
@@ -133,8 +148,7 @@
 (use-package! vterm-toggle
   :config
   (setq! vterm-toggle-fullscreen-p nil)
-  ;; (setq! vterm-toggle-reset-window-configration-after-exit t)
-  (setq! vterm-toggle-hide-method 'reset-window-configration)
+  (setq! vterm-toggle-hide-method 'quit-window)
 
 
   (map! :desc "Toggle vterm window"
@@ -142,7 +156,7 @@
 
   (map! :leader
         :desc "Toggle vterm window"
-        :n "v t" #'vterm-toggle)
+        :n "v v" #'vterm-toggle)
 
   (map! :leader
         :desc "Next vterm window"
@@ -206,7 +220,7 @@
   (setq marginalia-margin-threshold 500)
   :config
   (vertico-posframe-mode 1)
-  )
+)
 
 (use-package! treemacs
   :config
@@ -218,7 +232,9 @@
  :config
  (setq obsidian-directory "~/Documents/notes-git/notes"))
 
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-tokyo-night)
+(setq doom-tokyo-night-brighter-comments t)
+
 
 (setq doom-font (font-spec :family "Fira Code" :size 13))
 
@@ -238,14 +254,16 @@
 ;; Save all buffers when emacs looses the focus
 (add-hook 'focus-out-hook 'save-all)
 
+
 (use-package! magit-delta
   :config
-  ;; (add-to-list 'magit-delta-delta-args "--no-gitconfig")
-  ;; :hook (magit-mode . magit-delta-mode)
+  (add-to-list 'magit-delta-delta-args "--no-gitconfig")
   )
 
-;; (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
+(add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
+(add-hook 'magit-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
+(add-hook 'rustic-mode-hook (lambda () (dogears-mode 1)))
 (add-hook 'rustic-mode-hook (lambda () (smartparens-mode nil)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
