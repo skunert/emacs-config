@@ -38,7 +38,8 @@
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
   (setq lsp-rust-analyzer-cargo-watch-command "")
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
-  (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir .rust-analyzer-target --tests --workspace"])
+  ;; (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir .rust-analyzer-target --tests --workspace"])
+  (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --tests --workspace"])
   (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
   (lsp-rust-analyzer-inlay-hints-mode 1)
 
@@ -80,7 +81,7 @@
   (setq writeroom-width 90)
 )
 
-(add-hook 'org-mode-hook(lambda () (company-mode nil) (writeroom-mode 1) (display-line-numbers-mode nil)))
+(add-hook 'org-mode-hook(lambda () (company-mode 0) (writeroom-mode 1) (display-line-numbers-mode 0) (text-scale-decrease 1)))
 (add-hook 'writeroom-mode-hook(lambda () (text-scale-decrease 2)))
 
 (use-package! org-excalidraw
@@ -228,9 +229,7 @@
   (treemacs-project-follow-mode 1)
 )
 
-(use-package! obsidian
- :config
- (setq obsidian-directory "~/Documents/notes-git/notes"))
+(use-package! restclient)
 
 (setq doom-theme 'doom-tokyo-night)
 (setq doom-tokyo-night-brighter-comments t)
@@ -262,8 +261,8 @@
 
 (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
 (add-hook 'magit-mode-hook (lambda () (setq truncate-lines nil)))
+(add-hook 'code-review-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
-(add-hook 'rustic-mode-hook (lambda () (dogears-mode 1)))
 (add-hook 'rustic-mode-hook (lambda () (smartparens-mode nil)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)

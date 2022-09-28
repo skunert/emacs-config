@@ -80,6 +80,7 @@
        (markdown +grip)          ; writing docs for people to ignore
        ;; nix               ; I hereby declare "nix geht mehr!"
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       yaml
        ;; (javscript +lsp)
        web
        sh                ; she sells {ba,z,fi}sh shells on the C xor

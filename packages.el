@@ -58,8 +58,8 @@
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
 
-(package! obsidian
-  :recipe (:host github :repo "licht1stein/obsidian.el"))
+(package! restclient
+  :recipe (:host github :repo "pashky/restclient.el"))
 
 (package! org-excalidraw
   :recipe (:host github :repo "wdavew/org-excalidraw")
