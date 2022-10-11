@@ -90,11 +90,12 @@
 )
 
 (after! orderless
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp))
+  (setq orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp))
 )
 
 (map! "C-j" #'evil-scroll-line-down)
 (map! "C-k" #'evil-scroll-line-up)
+(map! "C-s" #'save-buffer)
 (after! inertial-scroll
   (setq inertias-update-time 20)
   (setq inertias-initial-velocity 200)
@@ -274,7 +275,7 @@
   ;; Trigger completion immediately.
   (setq company-idle-delay 0))
 
-(setenv "SSH_AUTH_SOCK" "/Users/skunert/.gnupg/S.gpg-agent.ssh")
+;; (setenv "SSH_AUTH_SOCK" "/Users/skunert/.gnupg/S.gpg-agent.ssh")
 
 (setq dap-cpptools-extension-version "1.5.1")
 
@@ -313,6 +314,6 @@
   (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   (dap-auto-configure-mode +1))
 
-(toggle-frame-maximized)
+;; (toggle-frame-maximized)
 
 (smartparens-global-mode nil)
