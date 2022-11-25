@@ -81,7 +81,7 @@
   (setq writeroom-width 90)
 )
 
-(add-hook 'org-mode-hook(lambda () (company-mode 0) (writeroom-mode 1) (display-line-numbers-mode 0) (text-scale-decrease 1)))
+(add-hook 'org-mode-hook(lambda () (company-mode -1) (writeroom-mode 1) (display-line-numbers-mode 0) (text-scale-decrease 1)))
 (add-hook 'writeroom-mode-hook(lambda () (text-scale-decrease 2)))
 
 (use-package! org-excalidraw
@@ -90,7 +90,7 @@
 )
 
 (after! orderless
-  (setq orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp))
+  (setq orderless-matching-styles '(orderless-literal orderless-initialism))
 )
 
 (map! "C-j" #'evil-scroll-line-down)
@@ -208,7 +208,7 @@
       :n "m T" #'bmkp-edit-tags)
   )
 
-(use-package! minibuffer-header)
+;;(use-package! minibuffer-header)
 
 (use-package! vertico-posframe
   :init
@@ -232,11 +232,11 @@
 
 (use-package! restclient)
 
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-monokai-ristretto)
 (setq doom-tokyo-night-brighter-comments t)
 
 
-(setq doom-font (font-spec :family "Fira Code" :size 13))
+(setq doom-font (font-spec :family "Fira Code" :size 14))
 
 (setq display-line-numbers-type 'relative)
 
@@ -264,9 +264,10 @@
 (add-hook 'magit-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'code-review-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
-(add-hook 'rustic-mode-hook (lambda () (smartparens-mode nil)))
+(add-hook 'rustic-mode-hook (lambda () (turn-off-smartparens-mode)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
+
 
 ;; Save all buffers before searching a project
 (advice-add #'+default/search-project :before (lambda (&rest _) (evil-write-all nil)))
@@ -294,9 +295,32 @@
   (require 'dap-gdb-lldb)
 )
 
+(setq deferred:debug t)
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
 (with-eval-after-load 'dap-cpptools
   ;; Add a template specific for debugging Rust programs.
   ;; It is used for new projects, where I can M-x dap-edit-debug-template
+  (dap-register-debug-template "Rust::GDB Run Configuration"
+                             (list :type "gdb"
+                                   :request "launch"
+                                   :name "GDB::Run"
+                           :gdbpath "rust-gdb"
+                                   :target nil
+                                   :cwd nil))
   (dap-register-debug-template "Rust::CppTools Run Configuration"
                                (list :type "cppdbg"
                                      :request "launch"

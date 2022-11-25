@@ -86,8 +86,11 @@
        sh                ; she sells {ba,z,fi}sh shells on the C xor
        (org +dragndrop +pretty +roam2 +gnuplot +journal)
 
+       :app
+       everywhere
+
        :config
-       (default +bindings +smartparens))
+       (default +bindings))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

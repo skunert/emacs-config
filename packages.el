@@ -70,16 +70,7 @@
 (package! just-mode)
 (package! deadgrep)
 (package! elgrep)
+(package! zoxide)
 
-;; === Disabled packages
-
-(package! turbo-log :recipe (:host github :repo "artawower/turbo-log") :disable t)
-
-;; Fuzzy finder
-(package! affe
-  :disable t)
-
-
-(package! minibuffer-header
-  :recipe (:host github :repo "rougier/minibuffer-header")
-  :disable t)
+(unpin! org-roam)
+(package! org-roam-ui)
