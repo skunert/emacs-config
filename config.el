@@ -341,3 +341,63 @@
 ;; (toggle-frame-maximized)
 
 (smartparens-global-mode nil)
+
+(setq +org-capture-todo-file "roam/inbox.org")
+
+(require 'browse-at-remote)
+(defun org-capture-browse-at-remote--file-url (filename &optional start-line end-line)
+  "Return the URL to browse FILENAME from lines START-LINE to END-LINE. "
+  (let* ((remote-ref (browse-at-remote--remote-ref filename))
+         (remote (car remote-ref))
+         (ref (cdr remote-ref))
+         (relname (f-relative filename (f-expand (vc-git-root filename))))
+         (target-repo (browse-at-remote--get-url-from-remote remote))
+         (remote-type (browse-at-remote--get-remote-type target-repo))
+         (repo-url (cdr target-repo))
+         (url-formatter (browse-at-remote--get-formatter 'region-url remote-type)))
+    (unless url-formatter
+      (error (format "Origin repo parsing failed: %s" repo-url)))
+    (message "Here we go")
+    (funcall url-formatter repo-url ref relname
+             (if start-line start-line)
+             (if (and end-line (not (equal start-line end-line))) end-line))))
+
+(defun org-capture-get-remote-url (filepath original-buffer)
+  "Get the remote url on github in a capture template."
+  (let* ((range-beginning (with-current-buffer original-buffer (region-beginning)))
+        (range-end (with-current-buffer original-buffer (region-end)))
+        (point-begin (min range-beginning range-end))
+        (point-end (max range-beginning range-end))
+        (start-line (when point-begin (with-current-buffer original-buffer (line-number-at-pos point-begin))))
+        (end-line (when point-end (with-current-buffer original-buffer (line-number-at-pos point-end)))))
+      (org-capture-browse-at-remote--file-url filepath start-line end-line))
+)
+(setq org-capture-templates-contexts
+      '(("r" ((in-mode . "rustic-mode")))))
+ (setq org-capture-templates
+   '(("t" "Personal todo" entry
+      (file+headline +org-capture-todo-file "Inbox")
+      "* [ ] %?\12%i\12%a" :prepend t)
+     ("r" "Rust project note" entry
+      (file+headline +org-capture-todo-file "Inbox")
+      "* %u %?\12#+begin_src rust\n%i\n#+end_src\n%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))" :prepend t)
+     ("n" "Personal notes" entry
+      (file+headline +org-capture-notes-file "Inbox")
+      "* %u %?\12%i\12%a" :prepend t)
+     ("j" "Journal" entry
+      (file+olp+datetree +org-capture-journal-file)
+      "* %U %?\12%i\12%a" :prepend t)
+     ("p" "Templates for projects")
+     ("pt" "Project-local todo" entry
+      (file+headline +org-capture-project-todo-file "Inbox")
+      "* TODO %?\12%i\12%a" :prepend t)
+     ("pn" "Project-local notes" entry
+      (file+headline +org-capture-project-notes-file "Inbox")
+      "* %U %?\12%i\12%a" :prepend t)
+     ("pc" "Project-local changelog" entry
+      (file+headline +org-capture-project-changelog-file "Unreleased")
+      "* %U %?\12%i\12%a" :prepend t)
+     ("o" "Centralized templates for projects")
+     ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\12 %i\12 %a" :heading "Tasks" :prepend nil)
+     ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\12 %i\12 %a" :prepend t :heading "Notes")
+     ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\12 %i\12 %a" :prepend t :heading "Changelog")))
