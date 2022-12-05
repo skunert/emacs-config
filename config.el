@@ -380,7 +380,7 @@
       "* [ ] %?\12%i\12%a" :prepend t)
      ("r" "Rust project note" entry
       (file+headline +org-capture-todo-file "Inbox")
-      "* %u %?\12#+begin_src rust\n%i\n#+end_src\n%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))" :prepend t)
+      "* %u %?\12#+begin_src rust\n%i\n#+end_src\n[[%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))][View on GitHub]]" :prepend t)
      ("n" "Personal notes" entry
       (file+headline +org-capture-notes-file "Inbox")
       "* %u %?\12%i\12%a" :prepend t)
