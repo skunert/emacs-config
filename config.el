@@ -31,7 +31,6 @@
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-headerline-breadcrumb-mode 1)
   ;; (setq lsp-headerline-breadcrumb-segments '(file symbols))
-  (setq lsp-rust-analyzer-proc-macro-enable nil)
   (setq lsp-response-timeout 20)
   (setq lsp-rust-analyzer-lru-capacity 256)
   (setq lsp-rust-analyzer-diagnostics-disabled ["macro-error" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
@@ -73,7 +72,7 @@
   )
 
 (after! org-roam
-  (setq org-agenda-files '("~/org/roam/daily/" "~/org/journal"))
+  (setq org-agenda-files '("~/org/roam/" "~/org/journal"))
   (setq org-hide-emphasis-markers t)
 )
 
@@ -84,6 +83,7 @@
 (add-hook 'org-mode-hook(lambda () (company-mode -1) (writeroom-mode 1) (display-line-numbers-mode 0) (text-scale-decrease 1)))
 (add-hook 'writeroom-mode-hook(lambda () (text-scale-decrease 2)))
 
+(setq text-quoting-style "grave")
 (use-package! org-excalidraw
   :config
   (setq org-excalidraw-directory "~/org/excalidraw")
@@ -129,6 +129,7 @@
 (use-package! tempel
   :config
   (setq! global-tempel-abbrev-mode 1)
+  (setq! tempel-path "~/.doom.d/templates")
   (map! :leader
       :desc "Complete with temple"
       :n "v t e" #'tempel-expand)
@@ -372,18 +373,38 @@
         (end-line (when point-end (with-current-buffer original-buffer (line-number-at-pos point-end)))))
       (org-capture-browse-at-remote--file-url filepath start-line end-line))
 )
+
+(defun org-toggle-emphasis ()
+  "Toggle hiding/showing of org emphasize markers."
+  (interactive)
+  (if org-hide-emphasis-markers
+      (set-variable 'org-hide-emphasis-markers nil)
+    (set-variable 'org-hide-emphasis-markers t)))
+(define-key org-mode-map (kbd "C-c e") 'org-toggle-emphasis)
+  (map! :leader
+      :desc "Insert with temple"
+      :n "n e" #'org-toggle-emphasis)
+(setq +org-capture-notes-file "roam/inbox.org")
+(setq org-todo-keywords
+   '((sequence "TODO(t)" "PROJ(p)" "LOOP(r)" "STRT(s)" "WAIT(w)" "HOLD(h)" "IDEA(i)" "|" "DONE(d)" "KILL(k)")
+     (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
+     (sequence "RESEARCH" "RESEARCHED")
+     (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 (setq org-capture-templates-contexts
       '(("r" ((in-mode . "rustic-mode")))))
  (setq org-capture-templates
    '(("t" "Personal todo" entry
       (file+headline +org-capture-todo-file "Inbox")
-      "* [ ] %?\12%i\12%a" :prepend t)
+      "* TODO %?\12%i\12%a" :prepend t)
+    ("l" "Research item" entry
+      (file+headline +org-capture-todo-file "Inbox")
+      "* RESEARCH %?\12%i\12%a" :prepend t)
      ("r" "Rust project note" entry
       (file+headline +org-capture-todo-file "Inbox")
       "* %u %?\12#+begin_src rust\n%i\n#+end_src\n[[%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))][View on GitHub]]" :prepend t)
      ("n" "Personal notes" entry
       (file+headline +org-capture-notes-file "Inbox")
-      "* %u %?\12%i\12%a" :prepend t)
+      "* %u %?\12%i" :prepend t)
      ("j" "Journal" entry
       (file+olp+datetree +org-capture-journal-file)
       "* %U %?\12%i\12%a" :prepend t)
