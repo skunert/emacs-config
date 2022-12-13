@@ -105,6 +105,7 @@
   (map! "C-u" #'inertias-down)
 )
 
+(require 'org-contrib)
 (map! :leader
       :desc "Toggle full screen"
       :n "t F" #'toggle-frame-maximized)
@@ -131,21 +132,21 @@
   (setq! global-tempel-abbrev-mode 1)
   (setq! tempel-path "~/.doom.d/templates")
   (map! :leader
-      :desc "Complete with temple"
+      :desc "Expand with tempel"
       :n "v t e" #'tempel-expand)
   (map! :leader
-      :desc "Insert with temple"
+      :desc "Insert with tempel"
       :n "v t i" #'tempel-insert)
 
   (map! :leader
-      :desc "Insert with temple"
+      :desc "Tempel done"
       :n "v t d" #'tempel-done)
 
   (map! :map tempel-map
-        "C-l" #'tempel-next)
+        "<tab>" #'tempel-next)
 
   (map! :map tempel-map
-        "C-h" #'tempel-previous)
+        "S-<tab>" #'tempel-previous)
 )
 
 (use-package! vterm-toggle
