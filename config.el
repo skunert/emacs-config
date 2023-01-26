@@ -238,7 +238,7 @@
 (setq doom-tokyo-night-brighter-comments t)
 
 
-(setq doom-font (font-spec :family "Fira Code" :size 14))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 14))
 
 (setq display-line-numbers-type 'relative)
 
@@ -265,7 +265,6 @@
 (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1)))
 (add-hook 'magit-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'code-review-mode-hook (lambda () (setq truncate-lines nil)))
-(add-hook 'rustic-mode-hook (lambda () (tree-sitter-hl-mode 1)))
 (add-hook 'rustic-mode-hook (lambda () (turn-off-smartparens-mode)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
@@ -281,12 +280,6 @@
 ;; (setenv "SSH_AUTH_SOCK" "/Users/skunert/.gnupg/S.gpg-agent.ssh")
 
 (setq dap-cpptools-extension-version "1.5.1")
-
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . javascript-mode))
 (add-to-list 'auto-mode-alist '("\\justfile\\'" . just-mode))
@@ -402,7 +395,7 @@
       "* RESEARCH %?\12%i\12%a" :prepend t)
      ("r" "Rust project note" entry
       (file+headline +org-capture-todo-file "Inbox")
-      "* %u %?\12#+begin_src rust\n%i\n#+end_src\n[[%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))][View on GitHub]]" :prepend t)
+      "* %u %?\12#+begin_src rust\n%i\n#+end_src\n[[%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))][View on GitHub]]\n%F" :prepend t)
      ("n" "Personal notes" entry
       (file+headline +org-capture-notes-file "Inbox")
       "* %u %?\12%i" :prepend t)
@@ -423,3 +416,9 @@
      ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\12 %i\12 %a" :heading "Tasks" :prepend nil)
      ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\12 %i\12 %a" :prepend t :heading "Notes")
      ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\12 %i\12 %a" :prepend t :heading "Changelog")))
+
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         "* %? bla"
+         :target (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n* Plan\n\n* Notes"))))

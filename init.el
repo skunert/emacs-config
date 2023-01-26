@@ -78,7 +78,7 @@
        ;; kotlin            ; a better, slicker Java(Script)
        (markdown +grip)          ; writing docs for people to ignore
        ;; nix               ; I hereby declare "nix geht mehr!"
-       (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp +tree-sitter)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        yaml
        ;; (javscript +lsp)
        web

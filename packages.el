@@ -72,5 +72,7 @@
 (package! elgrep)
 (package! zoxide)
 
+(unpin! consult-lsp)
 (unpin! org-roam)
+(unpin! code-review)
 (package! org-roam-ui)

@@ -4,3 +4,4 @@ org-mode
 rustic-mode
 (skunert-log "tracing::info!(target: \"skunert\", \"\")")
 (tracing "tracing::" p "!(target: " (p "LOG_TARGET") ", \"" q "\")")
+(print "println!(\"== Debug log\");\n")
