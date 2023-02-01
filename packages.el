@@ -65,6 +65,10 @@
   :recipe (:host github :repo "wdavew/org-excalidraw")
 )
 
+(package! org-modern
+  :recipe (:host github :repo "minad/org-modern")
+)
+
 (package! tempel)
 (package! magit-delta)
 (package! just-mode)

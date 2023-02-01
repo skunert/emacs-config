@@ -83,7 +83,7 @@
        ;; (javscript +lsp)
        web
        sh                ; she sells {ba,z,fi}sh shells on the C xor
-       (org +dragndrop +pretty +roam2 +gnuplot +journal)
+       (org +dragndrop +roam2 +gnuplot +journal)
 
        :app
        everywhere

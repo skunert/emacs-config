@@ -76,12 +76,7 @@
   (setq org-hide-emphasis-markers t)
 )
 
-(after! writeroom-mode
-  (setq writeroom-width 90)
-)
-
-(add-hook 'org-mode-hook(lambda () (company-mode -1) (writeroom-mode 1) (display-line-numbers-mode 0) (text-scale-decrease 1)))
-(add-hook 'writeroom-mode-hook(lambda () (text-scale-decrease 2)))
+(add-hook 'org-mode-hook(lambda () (company-mode -1) (display-line-numbers-mode 0) (org-indent-mode 0)))
 
 (setq text-quoting-style "grave")
 (use-package! org-excalidraw
@@ -422,3 +417,7 @@
          "* %? bla"
          :target (file+head "%<%Y-%m-%d>.org"
                             "#+title: %<%Y-%m-%d>\n* Plan\n\n* Notes"))))
+(use-package! org-modern
+  :hook (org-mode . global-org-modern-mode)
+  :config
+  (setq org-modern-label-border 0.3))
