@@ -73,10 +73,22 @@
 
 (after! org-roam
   (setq org-agenda-files '("~/org/roam/" "~/org/journal"))
-  (setq org-hide-emphasis-markers t)
 )
 
-(add-hook 'org-mode-hook(lambda () (company-mode -1) (display-line-numbers-mode 0) (org-indent-mode 0)))
+(add-hook 'org-mode-hook(lambda () (company-mode -1) (display-line-numbers-mode 0) (org-indent-mode 0) (org-appear-mode 1)))
+(setq org-hide-emphasis-markers t)
+(setq org-appear-autolinks t)
+(setq org-appear-trigger 'manual)
+(add-hook 'org-mode-hook (lambda ()
+                           (add-hook 'evil-insert-state-entry-hook
+                                     #'org-appear-manual-start
+                                     nil
+                                     t)
+                           (add-hook 'evil-insert-state-exit-hook
+                                     #'org-appear-manual-stop
+                                     nil
+                                     t)))
+
 
 (setq text-quoting-style "grave")
 (use-package! org-excalidraw

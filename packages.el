@@ -69,6 +69,10 @@
   :recipe (:host github :repo "minad/org-modern")
 )
 
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear")
+)
+
 (package! tempel)
 (package! magit-delta)
 (package! just-mode)
