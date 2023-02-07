@@ -19,9 +19,7 @@
   (setq lsp-ui-doc-max-height 14)
   )
 
-
 (after! lsp-rust
-  ;; disable the eldoc stuff
   (setq lsp-eldoc-hook nil)
   (setq lsp-rust-analyzer-use-client-watching nil)
   (setq lsp-auto-guess-root t)
@@ -30,14 +28,12 @@
   (setq lsp-enable-file-watchers nil)
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-headerline-breadcrumb-mode 1)
-  ;; (setq lsp-headerline-breadcrumb-segments '(file symbols))
   (setq lsp-response-timeout 20)
   (setq lsp-rust-analyzer-lru-capacity 256)
   (setq lsp-rust-analyzer-diagnostics-disabled ["macro-error" "unresolved-proc-macro" "unresolved-import" "mismatched-arg-count"])
   (setq lsp-rust-analyzer-cargo-run-build-scripts t)
   (setq lsp-rust-analyzer-cargo-watch-command "")
   (setq lsp-rust-analyzer-server-display-inlay-hints t)
-  ;; (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir .rust-analyzer-target --tests --workspace"])
   (setq lsp-rust-analyzer-cargo-override-command ["sh" "-c" "SKIP_WASM_BUILD=1 cargo check --message-format json --tests --workspace"])
   (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
   (lsp-rust-analyzer-inlay-hints-mode 1)
@@ -64,6 +60,7 @@
          evil-kill-on-visual-paste nil)
   )
 
+;; Customize keybindings for export
 (after! vertico
   (map! :map minibuffer-local-map
         "C-e" #'+vertico/embark-export-write)
@@ -103,14 +100,6 @@
 (map! "C-j" #'evil-scroll-line-down)
 (map! "C-k" #'evil-scroll-line-up)
 (map! "C-s" #'save-buffer)
-(after! inertial-scroll
-  (setq inertias-update-time 20)
-  (setq inertias-initial-velocity 200)
-  (setq inertias-friction 450)
-  (setq inertias-brake-coef 0.2)
-  (map! "C-d" #'inertias-up)
-  (map! "C-u" #'inertias-down)
-)
 
 (require 'org-contrib)
 (map! :leader
@@ -217,8 +206,6 @@
       :n "m T" #'bmkp-edit-tags)
   )
 
-;;(use-package! minibuffer-header)
-
 (use-package! vertico-posframe
   :init
   (setq vertico-posframe-border-width 4)
@@ -227,7 +214,6 @@
   (setq vertico-posframe-parameters
         '((left-fringe . 8)
           (right-fringe . 8)))
-  ;; NOTE: this is needed to make sure marginalia columns don't get misaligned
   (setq marginalia-margin-threshold 500)
   :config
   (vertico-posframe-mode 1)
