@@ -69,7 +69,7 @@
   )
 
 (after! org-roam
-  (setq org-agenda-files '("~/org/roam/" "~/org/journal"))
+  (setq org-agenda-files '("~/org/roam/daily" "~/org/roam"))
 )
 
 (add-hook 'org-mode-hook(lambda () (company-mode -1) (display-line-numbers-mode 0) (org-indent-mode 0) (org-appear-mode 1)))
@@ -147,8 +147,8 @@
 
 (use-package! vterm-toggle
   :config
-  (setq! vterm-toggle-fullscreen-p nil)
-  (setq! vterm-toggle-hide-method 'quit-window)
+  ;;(setq! vterm-toggle-fullscreen-p nil)
+  ;;(setq! vterm-toggle-hide-method 'quit-window)
 
 
   (map! :desc "Toggle vterm window"
@@ -227,7 +227,7 @@
 
 (use-package! restclient)
 
-(setq doom-theme 'doom-monokai-ristretto)
+(setq doom-theme 'doom-dracula)
 (setq doom-tokyo-night-brighter-comments t)
 
 
@@ -360,7 +360,7 @@
         (end-line (when point-end (with-current-buffer original-buffer (line-number-at-pos point-end)))))
       (org-capture-browse-at-remote--file-url filepath start-line end-line))
 )
-
+(setq default-frame-alist '((undecorated . t)))
 (defun org-toggle-emphasis ()
   "Toggle hiding/showing of org emphasize markers."
   (interactive)
