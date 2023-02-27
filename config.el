@@ -151,9 +151,6 @@
   ;;(setq! vterm-toggle-hide-method 'quit-window)
 
 
-  (map! :desc "Toggle vterm window"
-        :n [f12] #'vterm-toggle)
-
   (map! :leader
         :desc "Toggle vterm window"
         :n "v v" #'vterm-toggle)
@@ -206,17 +203,8 @@
       :n "m T" #'bmkp-edit-tags)
   )
 
-(use-package! vertico-posframe
-  :init
-  (setq vertico-posframe-border-width 4)
+(after! vertico-posframe
   (setq vertico-posframe-width 300)
-  (setq vertico-posframe-poshandler 'posframe-poshandler-frame-center)
-  (setq vertico-posframe-parameters
-        '((left-fringe . 8)
-          (right-fringe . 8)))
-  (setq marginalia-margin-threshold 500)
-  :config
-  (vertico-posframe-mode 1)
 )
 
 (use-package! treemacs
@@ -377,6 +365,7 @@
      (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
      (sequence "RESEARCH" "RESEARCHED")
      (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
+
 (setq org-capture-templates-contexts
       '(("r" ((in-mode . "rustic-mode")))))
  (setq org-capture-templates
@@ -414,8 +403,21 @@
       '(("d" "default" entry
          "* %? bla"
          :target (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n* Plan\n\n* Notes"))))
+                            "#+title: %<%Y-%m-%d>\n"))))
 (use-package! org-modern
   :hook (org-mode . global-org-modern-mode)
   :config
   (setq org-modern-label-border 0.3))
+
+(defun my-startup-layout ()
+ (interactive)
+ (delete-other-windows)
+ (split-window-horizontally) ;; -> |
+ (split-window-vertically) ;;  -> --
+ (org-roam-dailies-goto-today)
+ (next-multiframe-window)
+ (org-agenda-list)
+ (next-multiframe-window)
+)
+
+(my-startup-layout)
