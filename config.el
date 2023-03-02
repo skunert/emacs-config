@@ -321,22 +321,6 @@
 (setq +org-capture-todo-file "roam/inbox.org")
 
 (require 'browse-at-remote)
-(defun org-capture-browse-at-remote--file-url (filename &optional start-line end-line)
-  "Return the URL to browse FILENAME from lines START-LINE to END-LINE. "
-  (let* ((remote-ref (browse-at-remote--remote-ref filename))
-         (remote (car remote-ref))
-         (ref (cdr remote-ref))
-         (relname (f-relative filename (f-expand (vc-git-root filename))))
-         (target-repo (browse-at-remote--get-url-from-remote remote))
-         (remote-type (browse-at-remote--get-remote-type target-repo))
-         (repo-url (cdr target-repo))
-         (url-formatter (browse-at-remote--get-formatter 'region-url remote-type)))
-    (unless url-formatter
-      (error (format "Origin repo parsing failed: %s" repo-url)))
-    (message "Here we go")
-    (funcall url-formatter repo-url ref relname
-             (if start-line start-line)
-             (if (and end-line (not (equal start-line end-line))) end-line))))
 
 (defun org-capture-get-remote-url (filepath original-buffer)
   "Get the remote url on github in a capture template."
@@ -346,8 +330,9 @@
         (point-end (max range-beginning range-end))
         (start-line (when point-begin (with-current-buffer original-buffer (line-number-at-pos point-begin))))
         (end-line (when point-end (with-current-buffer original-buffer (line-number-at-pos point-end)))))
-      (org-capture-browse-at-remote--file-url filepath start-line end-line))
+      (browse-at-remote--file-url filepath start-line end-line))
 )
+
 (setq default-frame-alist '((undecorated . t)))
 (defun org-toggle-emphasis ()
   "Toggle hiding/showing of org emphasize markers."
