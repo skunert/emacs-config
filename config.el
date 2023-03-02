@@ -409,15 +409,23 @@
   :config
   (setq org-modern-label-border 0.3))
 
+(setq org-agenda-sticky t)
+(setq org-priority-default 67)
+
 (defun my-startup-layout ()
  (interactive)
  (delete-other-windows)
  (split-window-horizontally) ;; -> |
+ (split-window-horizontally) ;; -> |
  (split-window-vertically) ;;  -> --
  (org-roam-dailies-goto-today)
  (next-multiframe-window)
+ (split-window-horizontally) ;; -> |
  (org-agenda-list)
  (next-multiframe-window)
+ (org-todo-list)
+ (next-multiframe-window)
+ (balance-windows)
 )
 
 (my-startup-layout)
