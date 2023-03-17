@@ -73,6 +73,10 @@
   :recipe (:host github :repo "awth13/org-appear")
 )
 
+(package! chatgpt-arcana
+  :recipe (:host github :repo "CarlQLange/ChatGPT-Arcana.el")
+)
+
 (package! tempel)
 (package! magit-delta)
 (package! just-mode)

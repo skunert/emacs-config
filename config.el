@@ -52,13 +52,23 @@
         :mode rustic-mode
         :desc "Add cargo dependency"
         :n "m a" #'rustic-cargo-add)
+
+  (map! :leader
+        :mode rustic-mode
+        :desc "Peek references"
+        :n "c p D" #'lsp-ui-peek-find-references)
+
+  (map! :leader
+        :mode rustic-mode
+        :desc "Peek references"
+        :n "c p i" #'lsp-ui-peek-find-implementation)
   )
 
-(use-package! evil
-  :config
+(after! evil
   (setq! evil-snipe-scope 'visible
          evil-kill-on-visual-paste nil)
-  )
+  (map! :m [tab] #'ts-fold-toggle)
+)
 
 ;; Customize keybindings for export
 (after! vertico
@@ -72,19 +82,16 @@
   (setq org-agenda-files '("~/org/roam/daily" "~/org/roam"))
 )
 
+(after! tree-sitter
+  (custom-set-faces!
+    '(tree-sitter-hl-face:function.macro :slant italic :inherit tree-sitter-hl-face:function.call)
+    )
+)
+
 (add-hook 'org-mode-hook(lambda () (company-mode -1) (display-line-numbers-mode 0) (org-indent-mode 0) (org-appear-mode 1)))
 (setq org-hide-emphasis-markers t)
 (setq org-appear-autolinks t)
-(setq org-appear-trigger 'manual)
-(add-hook 'org-mode-hook (lambda ()
-                           (add-hook 'evil-insert-state-entry-hook
-                                     #'org-appear-manual-start
-                                     nil
-                                     t)
-                           (add-hook 'evil-insert-state-exit-hook
-                                     #'org-appear-manual-stop
-                                     nil
-                                     t)))
+(setq treesit-extra-load-path '("~/.emacs.d/tree-sitter"))
 
 
 (setq text-quoting-style "grave")
@@ -219,7 +226,7 @@
 (setq doom-tokyo-night-brighter-comments t)
 
 
-(setq doom-font (font-spec :family "Jetbrains Mono" :size 14))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
 
 (setq display-line-numbers-type 'relative)
 
@@ -271,7 +278,6 @@
   (require 'dap-gdb-lldb)
 )
 
-(setq deferred:debug t)
 (use-package! websocket
     :after org-roam)
 
@@ -389,6 +395,9 @@
          "* %? bla"
          :target (file+head "%<%Y-%m-%d>.org"
                             "#+title: %<%Y-%m-%d>\n"))))
+
+(load! "./secrets.el")
+
 (use-package! org-modern
   :hook (org-mode . global-org-modern-mode)
   :config
@@ -397,7 +406,7 @@
 (setq org-agenda-sticky t)
 (setq org-priority-default 67)
 
-(defun my-startup-layout ()
+(defun startup-layout ()
  (interactive)
  (delete-other-windows)
  (split-window-horizontally) ;; -> |
@@ -413,4 +422,18 @@
  (balance-windows)
 )
 
-(my-startup-layout)
+(startup-layout)
+(magit-wip-mode)
+
+
+(after! org-modern
+  (custom-set-faces!
+    '(org-block-begin-line :foreground: "red" :background "#383B4C" :extend nil)
+    '(org-block :background "#2E303E" :extend t)
+    '(org-block-end-line :foreground: "red" :background "#383B4C" :extend nil)
+    )
+)
+
+(after! ts-fold
+  (global-ts-fold-mode 1)
+)

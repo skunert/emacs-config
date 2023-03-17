@@ -1,5 +1,8 @@
 org-mode
-(src "#+BEGIN_SRC" n "#+END_SRC")
+(src "#+BEGIN_SRC rust" n q n "#+END_SRC")
+(A "[#A]")
+(B "[#B]")
+(C "[#C]")
 
 rustic-mode
 (skunert-log "tracing::info!(target: \"skunert\", \"\")")
