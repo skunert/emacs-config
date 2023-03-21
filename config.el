@@ -361,6 +361,25 @@
 
 (require 'browse-at-remote)
 
+;; This is required since "browse-at-remote--file-url" converts from points to
+;; lines, but we need to do this conversion before with the original buffer.
+(defun org-capture-browse-at-remote--file-url (filename &optional start-line end-line)
+  "Return the URL to browse FILENAME from lines START to END. "
+  (let* ((remote-ref (browse-at-remote--remote-ref filename))
+         (remote (car remote-ref))
+         (ref (cdr remote-ref))
+         (relname (f-relative filename (f-expand (vc-git-root filename))))
+         (target-repo (browse-at-remote--get-url-from-remote remote))
+         (remote-type (browse-at-remote--get-remote-type (plist-get target-repo :unresolved-host)))
+         (repo-url (plist-get target-repo :url))
+         (url-formatter (browse-at-remote--get-formatter 'region-url remote-type)))
+    (unless url-formatter
+      (error (format "Origin repo parsing failed: %s" repo-url)))
+
+    (funcall url-formatter repo-url ref relname
+             (if start-line start-line)
+             (if (and end-line (not (equal start-line end-line))) end-line))))
+
 (defun org-capture-get-remote-url (filepath original-buffer)
   "Get the remote url on github in a capture template."
   (let* ((range-beginning
@@ -379,7 +398,7 @@
           (when point-end
             (with-current-buffer original-buffer
               (line-number-at-pos point-end)))))
-    (browse-at-remote--file-url filepath start-line end-line)))
+    (org-capture-browse-at-remote--file-url filepath start-line end-line)))
 
 (setq default-frame-alist '((undecorated . t)))
 (defun org-toggle-emphasis ()
