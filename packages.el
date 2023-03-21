@@ -77,6 +77,11 @@
   :recipe (:host github :repo "CarlQLange/ChatGPT-Arcana.el")
 )
 
+(package! org-super-agenda
+  :recipe (:host github :repo "alphapapa/org-super-agenda")
+)
+
+(package! elisp-autofmt)
 (package! tempel)
 (package! magit-delta)
 (package! just-mode)
