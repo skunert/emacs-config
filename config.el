@@ -510,6 +510,8 @@
          :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
 
 (load! "./secrets.el")
+(load! "difftastic.el")
+
 (setq! org-agenda-start-day "-1d")
 (setq! org-agenda-span 3)
 (setq! org-agenda-start-on-weekday nil)
