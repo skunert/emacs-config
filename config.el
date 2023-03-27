@@ -102,7 +102,7 @@
  (setq! evil-snipe-scope 'visible evil-kill-on-visual-paste nil)
  (map! :map evil-org-mode-map :n "<C-return>" #'hacky-new-item)
  (map! :map evil-org-mode-map :i "<C-return>" #'hacky-new-item)
- (map! :m [tab] #'ts-fold-toggle))
+ (map! :mode rustic-mode :m [tab] #'ts-fold-toggle))
 
 ;; Customize keybindings for export
 (after!
@@ -110,7 +110,8 @@
  (map! :map minibuffer-local-map "C-e" #'+vertico/embark-export-write)
  (map! :map minibuffer-local-map "C-h" #'embark-bindings))
 
-(after! org-roam (setq org-agenda-files '("~/org/roam/daily" "~/org/roam")))
+(after!
+ org-roam (setq org-agenda-files '("~/org/roam/daily" "~/org/roam")))
 
 (after!
  tree-sitter
@@ -363,22 +364,29 @@
 
 ;; This is required since "browse-at-remote--file-url" converts from points to
 ;; lines, but we need to do this conversion before with the original buffer.
-(defun org-capture-browse-at-remote--file-url (filename &optional start-line end-line)
+(defun org-capture-browse-at-remote--file-url
+    (filename &optional start-line end-line)
   "Return the URL to browse FILENAME from lines START to END. "
   (let* ((remote-ref (browse-at-remote--remote-ref filename))
          (remote (car remote-ref))
          (ref (cdr remote-ref))
          (relname (f-relative filename (f-expand (vc-git-root filename))))
          (target-repo (browse-at-remote--get-url-from-remote remote))
-         (remote-type (browse-at-remote--get-remote-type (plist-get target-repo :unresolved-host)))
+         (remote-type
+          (browse-at-remote--get-remote-type
+           (plist-get target-repo :unresolved-host)))
          (repo-url (plist-get target-repo :url))
-         (url-formatter (browse-at-remote--get-formatter 'region-url remote-type)))
+         (url-formatter
+          (browse-at-remote--get-formatter 'region-url remote-type)))
     (unless url-formatter
       (error (format "Origin repo parsing failed: %s" repo-url)))
 
-    (funcall url-formatter repo-url ref relname
-             (if start-line start-line)
-             (if (and end-line (not (equal start-line end-line))) end-line))))
+    (funcall url-formatter
+             repo-url ref relname
+             (if start-line
+                 start-line)
+             (if (and end-line (not (equal start-line end-line)))
+                 end-line))))
 
 (defun org-capture-get-remote-url (filepath original-buffer)
   "Get the remote url on github in a capture template."
@@ -542,6 +550,12 @@
 (startup-layout)
 (magit-wip-mode)
 
+
+(after!
+ org
+ (setq! org-pretty-entities t)
+ (setq! org-auto-align-tags nil)
+ (setq! org-agenda-tags-column 0))
 
 (after!
  org-modern
