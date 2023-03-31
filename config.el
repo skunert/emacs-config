@@ -110,8 +110,7 @@
  (map! :map minibuffer-local-map "C-e" #'+vertico/embark-export-write)
  (map! :map minibuffer-local-map "C-h" #'embark-bindings))
 
-(after!
- org-roam (setq org-agenda-files '("~/org/roam/daily" "~/org/roam")))
+(after! org-roam (setq org-agenda-files '("~/org/roam/daily" "~/org/roam")))
 
 (after!
  tree-sitter
@@ -120,13 +119,6 @@
     :slant italic
     :inherit tree-sitter-hl-face:function.call)))
 
-(add-hook
- 'org-mode-hook
- (lambda ()
-   (company-mode -1)
-   (display-line-numbers-mode 0)
-   (org-indent-mode 0)
-   (org-appear-mode 1)))
 (setq org-hide-emphasis-markers t)
 (setq org-appear-autolinks t)
 (setq treesit-extra-load-path '("~/.emacs.d/tree-sitter"))
@@ -226,8 +218,8 @@
     (:name "Today" :scheduled today :scheduled past :order 0)
     (:name "Doing" :tag ("inprogress") :order 1)
     (:name "Next" :tag ("next") :todo ("NEXT") :order 5)
-    (:name "Research" :todo "RESEARCH" :order 9)
-    (:name "Waiting" :todo "WAIT" :order 10)
+    (:name "Research" :todo "RESEARCH" :order 10)
+    (:name "Waiting" :todo "WAIT" :order 9)
     (:name "Leftover" :todo "TODO" :order 11)))
  ;; Without this, a custom keymap will be activated when hovering
  ;; above headings set by this package
@@ -251,7 +243,7 @@
 
 (setq doom-theme 'doom-dracula)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 17))
 
 (setq display-line-numbers-type 'relative)
 
@@ -551,11 +543,21 @@
 (magit-wip-mode)
 
 
+(after! company
+  (setq company-global-modes '(not erc-mode circe-mode message-mode help-mode gud-mode vterm-mode org-mode))
+)
+
 (after!
  org
  (setq! org-pretty-entities t)
  (setq! org-auto-align-tags nil)
- (setq! org-agenda-tags-column 0))
+ (setq! org-agenda-tags-column 0)
+ (add-hook 'org-mode-hook
+           (lambda ()
+             (display-line-numbers-mode 0)
+             (org-indent-mode 0)
+             (org-appear-mode 1))
+           100))
 
 (after!
  org-modern
