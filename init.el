@@ -50,6 +50,7 @@
        electric          ; smarter, keyword-based electric-indent
        ibuffer           ; interactive buffer management
        vc                ; version-control and Emacs, sitting in a tree
+       undo
 
        :checkers
        syntax              ; tasing you for every semicolon you forget

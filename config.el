@@ -218,8 +218,9 @@
     (:name "Today" :scheduled today :scheduled past :order 0)
     (:name "Doing" :tag ("inprogress") :order 1)
     (:name "Next" :tag ("next") :todo ("NEXT") :order 5)
-    (:name "Research" :todo "RESEARCH" :order 10)
+    (:name "Reading List" :todo "READ" :order 6)
     (:name "Waiting" :todo "WAIT" :order 9)
+    (:name "Research" :todo "RESEARCH" :order 10)
     (:name "Leftover" :todo "TODO" :order 11)))
  ;; Without this, a custom keymap will be activated when hovering
  ;; above headings set by this package
@@ -423,7 +424,8 @@
          "KILL(k)")
         (sequence "[ ](T)" "[-](S)" "[?](W)" "|" "[X](D)")
         (sequence "WAIT" "NEXT" "TODO" "|" "DONE")
-        (sequence "RESEARCH" "ANOTHER" "|" "RESEARCHED")
+        (sequence "RESEARCH" "|" "RESEARCHED")
+        (sequence "READ" "|" "FINISHED")
         (sequence "|" "OKAY(o)" "YES(y)" "NO(n)")))
 
 (setq org-capture-templates-contexts '(("r" ((in-mode . "rustic-mode")))))
