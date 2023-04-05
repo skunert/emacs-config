@@ -554,6 +554,13 @@
  (setq! org-pretty-entities t)
  (setq! org-auto-align-tags nil)
  (setq! org-agenda-tags-column 0)
+(setq org-agenda-prefix-format '(
+  ;; (agenda  . " %i %-12:c%?-12t% s") ;; file name + org-agenda-entry-type
+  (agenda  . "  • ")
+  (timeline  . "  % s")
+  (todo  . " %i")
+  (tags  . " %i")
+  (search . " %i")))
  (add-hook 'org-mode-hook
            (lambda ()
              (display-line-numbers-mode 0)
