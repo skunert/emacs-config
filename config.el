@@ -525,6 +525,18 @@
 
 (setq org-agenda-sticky t)
 (setq org-priority-default 67)
+(setq
+ org-agenda-prefix-format
+ '(
+   ;; (agenda  . " %i %-12:c%?-12t% s") ;; file name + org-agenda-entry-type
+   (agenda . "  • ")
+   (timeline . "  % s") (todo . " %i") (tags . " %i") (search . " %i")))
+(add-hook 'org-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 0)
+            (org-indent-mode 0)
+            (org-appear-mode 1))
+          100)
 
 (defun startup-layout ()
   (interactive)
@@ -545,28 +557,22 @@
 (magit-wip-mode)
 
 
-(after! company
-  (setq company-global-modes '(not erc-mode circe-mode message-mode help-mode gud-mode vterm-mode org-mode))
-)
+(after!
+ company
+ (setq company-global-modes
+       '(not erc-mode
+             circe-mode
+             message-mode
+             help-mode
+             gud-mode
+             vterm-mode
+             org-mode)))
 
 (after!
  org
  (setq! org-pretty-entities t)
  (setq! org-auto-align-tags nil)
- (setq! org-agenda-tags-column 0)
-(setq org-agenda-prefix-format '(
-  ;; (agenda  . " %i %-12:c%?-12t% s") ;; file name + org-agenda-entry-type
-  (agenda  . "  • ")
-  (timeline  . "  % s")
-  (todo  . " %i")
-  (tags  . " %i")
-  (search . " %i")))
- (add-hook 'org-mode-hook
-           (lambda ()
-             (display-line-numbers-mode 0)
-             (org-indent-mode 0)
-             (org-appear-mode 1))
-           100))
+ (setq! org-agenda-tags-column 0))
 
 (after!
  org-modern
