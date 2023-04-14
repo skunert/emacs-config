@@ -81,6 +81,10 @@
   :recipe (:host github :repo "alphapapa/org-super-agenda")
 )
 
+(package! org-ql
+  :recipe (:host github :repo "alphapapa/org-ql")
+)
+
 (package! elisp-autofmt)
 (package! tempel)
 (package! magit-delta)
