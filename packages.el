@@ -52,6 +52,12 @@
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
 
+(package! chatgpt-shell
+  :recipe (:host github :repo "xenodium/chatgpt-shell"))
+
+(package! shell-maker
+  :recipe (:host github :repo "xenodium/chatgpt-shell"))
+
 (package! vterm-toggle
   :recipe (:host github :repo "jixiuf/vterm-toggle"))
 
@@ -71,10 +77,6 @@
 
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
-)
-
-(package! chatgpt-arcana
-  :recipe (:host github :repo "CarlQLange/ChatGPT-Arcana.el")
 )
 
 (package! org-super-agenda

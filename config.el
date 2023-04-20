@@ -43,7 +43,7 @@
   lsp-rust-analyzer-cargo-override-command
   ["sh"
    "-c"
-   "SKIP_WASM_BUILD=1 cargo check --message-format json --tests --workspace"])
+   "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir target/ra-target --workspace --tests"])
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
  (lsp-rust-analyzer-inlay-hints-mode 1)
 
@@ -353,6 +353,13 @@
 
 (setq +org-capture-todo-file "roam/inbox.org")
 
+(use-package! shell-maker)
+(use-package! chatgpt-shell
+  :config
+  (setq chatgpt-shell-openai-key
+      (auth-source-pick-first-password :host "api.openai.com"))
+  )
+
 (require 'browse-at-remote)
 
 ;; This is required since "browse-at-remote--file-url" converts from points to
@@ -511,7 +518,6 @@
          "* %? bla"
          :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
 
-(load! "./secrets.el")
 (load! "difftastic.el")
 
 (setq! org-agenda-start-day "-1d")
