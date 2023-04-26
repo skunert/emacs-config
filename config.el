@@ -19,6 +19,12 @@
  (setq lsp-ui-doc-show-with-cursor t)
  (setq lsp-ui-doc-max-height 14))
 
+(use-package! dogears
+  :after
+  (dogears-mode 1)
+  (map! :leader :desc "Dogears go" :n "f d" #'dogears-go)
+)
+
 (after!
  lsp-rust
  (setq lsp-eldoc-hook nil)
@@ -38,14 +44,14 @@
         "mismatched-arg-count"])
  (setq lsp-rust-analyzer-cargo-run-build-scripts t)
  (setq lsp-rust-analyzer-cargo-watch-command "")
- (setq lsp-rust-analyzer-server-display-inlay-hints t)
+ (setq lsp-rust-analyzer-server-display-inlay-hints nil)
  (setq
   lsp-rust-analyzer-cargo-override-command
   ["sh"
    "-c"
-   "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir target/ra-target --workspace --tests"])
+   "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir target/ra-target --workspace --tests --benches"])
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
- (lsp-rust-analyzer-inlay-hints-mode 1)
+;; (lsp-rust-analyzer-inlay-hints-mode 1)
 
  (setq gc-cons-threshold 1000000000)
  (setq message-log-max 3000)
@@ -244,7 +250,7 @@
 
 (setq doom-theme 'doom-dracula)
 
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 17))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16))
 
 (setq display-line-numbers-type 'relative)
 
@@ -589,3 +595,5 @@
 
 
 (after! ts-fold (global-ts-fold-mode 1))
+
+(load! "github.el")

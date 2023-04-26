@@ -83,6 +83,10 @@
   :recipe (:host github :repo "alphapapa/org-super-agenda")
 )
 
+(package! dogears
+  :recipe (:host github :repo "alphapapa/dogears.el"))
+
+
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")
 )
