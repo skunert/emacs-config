@@ -19,15 +19,15 @@
  (setq lsp-ui-doc-show-with-cursor t)
  (setq lsp-ui-doc-max-height 14))
 
-(use-package! dogears
-  :after
-  (dogears-mode 1)
-  (map! :leader :desc "Dogears go" :n "f d" #'dogears-go)
-)
+(use-package!
+ dogears
+ :config
+ (dogears-mode 1)
+ (map! :leader :desc "Dogears go" :n "f d" #'dogears-go))
 
 (after!
  lsp-rust
- (setq lsp-eldoc-hook nil)
+ (setq lsp-eldoc-documentation-functions nil)
  (setq lsp-rust-analyzer-use-client-watching nil)
  (setq lsp-auto-guess-root t)
  (setq lsp-auto-execute-action nil)
@@ -51,7 +51,7 @@
    "-c"
    "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir target/ra-target --workspace --tests --benches"])
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
-;; (lsp-rust-analyzer-inlay-hints-mode 1)
+ ;; (lsp-rust-analyzer-inlay-hints-mode 1)
 
  (setq gc-cons-threshold 1000000000)
  (setq message-log-max 3000)
@@ -360,11 +360,11 @@
 (setq +org-capture-todo-file "roam/inbox.org")
 
 (use-package! shell-maker)
-(use-package! chatgpt-shell
-  :config
-  (setq chatgpt-shell-openai-key
-      (auth-source-pick-first-password :host "api.openai.com"))
-  )
+(use-package!
+ chatgpt-shell
+ :config
+ (setq chatgpt-shell-openai-key
+       (auth-source-pick-first-password :host "api.openai.com")))
 
 (require 'browse-at-remote)
 
@@ -444,13 +444,7 @@
 (setq org-capture-templates-contexts '(("r" ((in-mode . "rustic-mode")))))
 (setq
  org-capture-templates
- '(("t"
-    "Personal todo"
-    entry
-    (file+headline +org-capture-todo-file "Inbox")
-    "* TODO %?\12%i\12%a"
-    :prepend t)
-   ("l"
+ '(("l"
     "Research item"
     entry
     (file+headline +org-capture-todo-file "Inbox")
@@ -461,67 +455,23 @@
     entry
     (file+headline +org-capture-todo-file "Inbox")
     "* %? \n:CODEREF:\n#+begin_src rust\n%i#+end_src\n[[%(org-capture-get-remote-url \"%F\" (org-capture-get :original-buffer))][View on GitHub]]\n%F\n:END:\n"
-    :prepend t)
-   ("n"
-    "Personal notes"
-    entry
-    (file+headline +org-capture-notes-file "Inbox")
-    "* %u %?\12%i"
-    :prepend t)
-   ("j"
-    "Journal"
-    entry
-    (file+olp+datetree +org-capture-journal-file)
-    "* %U %?\12%i\12%a"
-    :prepend t)
-   ("p" "Templates for projects")
-   ("pt"
-    "Project-local todo"
-    entry
-    (file+headline +org-capture-project-todo-file "Inbox")
-    " \n\n* TODO \n bla %?\12%i\12%a"
-    :prepend t
-    :empty-lines-before 3)
-   ("pn"
-    "Project-local notes"
-    entry
-    (file+headline +org-capture-project-notes-file "Inbox")
-    "* %U %?\12%i\12%a"
-    :prepend t)
-   ("pc"
-    "Project-local changelog"
-    entry
-    (file+headline +org-capture-project-changelog-file "Unreleased")
-    "* %U %?\12%i\12%a"
-    :prepend t)
-   ("o" "Centralized templates for projects")
-   ("ot"
-    "Project todo"
-    entry
-    #'+org-capture-central-project-todo-file
-    "* TODO %?\12 %i\12 %a"
-    :heading "Tasks"
-    :prepend nil)
-   ("on"
-    "Project notes"
-    entry
-    #'+org-capture-central-project-notes-file
-    "* %U %?\12 %i\12 %a"
-    :prepend t
-    :heading "Notes")
-   ("oc"
-    "Project changelog"
-    entry
-    #'+org-capture-central-project-changelog-file
-    "* %U %?\12 %i\12 %a"
-    :prepend t
-    :heading "Changelog")))
+    :prepend t)))
 
 (setq org-roam-dailies-capture-templates
       '(("d"
          "default"
          entry
          "* %? bla"
+         :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+        ("t"
+         "Capture Todo"
+         entry
+         "* TODO %?"
+         :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))
+        ("a"
+         "Capture Actionable Todo"
+         entry
+         "* TODO %? :next:"
          :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n"))))
 
 (load! "difftastic.el")
