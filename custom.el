@@ -93,4 +93,4 @@
  '(org-block-begin-line ((t (:foreground: "red" :background "#383B4C" :extend nil))))
  '(org-block-end-line ((t (:foreground: "red" :background "#383B4C" :extend nil))))
  '(tree-sitter-hl-face:function.macro ((t (:slant italic :inherit tree-sitter-hl-face:function.call))))
- '(ts-fold-replacement-face ((t (:foreground nil :box nil :inherit font-lock-comment-face :weight light)))))
+ '(ts-fold-replacement-face ((t (:foreground unspecified :box nil :inherit font-lock-comment-face :weight light)))))

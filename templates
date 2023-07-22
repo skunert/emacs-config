@@ -3,6 +3,7 @@ org-mode
 (A "[#A]")
 (B "[#B]")
 (C "[#C]")
+(log "* " q " :log:")
 
 rustic-mode
 (skunert-log "tracing::info!(target: \"skunert\", \"\")")

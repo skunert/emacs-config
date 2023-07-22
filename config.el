@@ -27,7 +27,6 @@
 
 (after!
  lsp-rust
- (setq lsp-eldoc-documentation-functions nil)
  (setq lsp-rust-analyzer-use-client-watching nil)
  (setq lsp-auto-guess-root t)
  (setq lsp-auto-execute-action nil)
@@ -49,7 +48,7 @@
   lsp-rust-analyzer-cargo-override-command
   ["sh"
    "-c"
-   "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir target/ra-target --workspace --tests --benches"])
+   "SKIP_WASM_BUILD=1 cargo check --message-format json --workspace --tests --benches"])
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
  ;; (lsp-rust-analyzer-inlay-hints-mode 1)
 
@@ -359,10 +358,18 @@
 
 (setq +org-capture-todo-file "roam/inbox.org")
 
+;; (use-package!
+;;  consult-gh
+;;  :config
+;;  (add-to-list 'consult-gh-default-orgs-list "skunert")
+;;  (add-to-list 'consult-gh-default-orgs-list "paritytech")
+;;  (setq consult-gh-default-clone-directory "~/work/repos"))
+
 (use-package! shell-maker)
 (use-package!
  chatgpt-shell
  :config
+ (setq chatgpt-shell-model-version "gpt-4")
  (setq chatgpt-shell-openai-key
        (auth-source-pick-first-password :host "api.openai.com")))
 
@@ -506,7 +513,7 @@
   (split-window-horizontally) ;; -> |
   (split-window-horizontally) ;; -> |
   (split-window-vertically) ;;  -> --
-  (org-roam-dailies-goto-today)
+  (org-roam-dailies-goto-today "d")
   (next-multiframe-window)
   ;; (split-window-horizontally) ;; -> |
   ;; (org-agenda-list)
