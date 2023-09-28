@@ -81,6 +81,7 @@
       (path-separator . ":")
       (null-device . "/dev/null"))))
  '(counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+ '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
  '(projectile-globally-ignored-directories
    '("~/.emacs.d/.local/" ".idea" ".ensime_cache" ".eunit" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "target"))
  '(projectile-globally-ignored-files '(".DS_Store" "Icon\12" "TAGS" "target")))

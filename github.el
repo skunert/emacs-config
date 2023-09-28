@@ -26,5 +26,5 @@
     (if (request-response-error-thrown response)
         (error "Error fetching issue or pull request data: %S" (request-response-error-thrown response))
       (let ((title (cdr (assoc 'title (request-response-data response)))))
-        (insert (format "[[%s][%s]]" url title))
+        (insert (format "[%s](%s)" title url))
         (message "Inserted issue or pull request title and URL in Org format.")))))

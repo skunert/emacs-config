@@ -52,6 +52,9 @@
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
 
+(package! obsidian
+  :recipe (:host github :repo "licht1stein/obsidian.el"))
+
 (package! chatgpt-shell
   :recipe (:host github :repo "xenodium/chatgpt-shell"))
 
