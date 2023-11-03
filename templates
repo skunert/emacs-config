@@ -7,5 +7,5 @@ org-mode
 
 rustic-mode
 (skunert-log "tracing::info!(target: \"skunert\", \"\")")
+(bt-trace "tracing::info!(target: \"skunert\", \"backtrace: {:#?}\", std::backtrace::Backtrace::force_capture());")
 (tracing "tracing::" p "!(target: " (p "LOG_TARGET") ", \"" q "\")")
-(print "println!(\"== Debug log\");\n")

@@ -25,10 +25,7 @@
  (dogears-mode 1)
  (map! :leader :desc "Dogears go" :n "f d" #'dogears-go))
 
-(after!
-  marginalia
-  (setq marginalia-align 'right)
-  )
+(after! marginalia (setq marginalia-align 'right))
 
 (after!
  lsp-rust
@@ -47,15 +44,8 @@
         "unresolved-import"
         "mismatched-arg-count"])
  (setq lsp-rust-analyzer-cargo-run-build-scripts t)
- (setq lsp-rust-analyzer-cargo-watch-command "")
  (setq lsp-rust-analyzer-server-display-inlay-hints nil)
- ;; (setq
- ;;  lsp-rust-analyzer-cargo-override-command
- ;;  ["sh"
- ;;   "-c"
- ;;   "cargo check --message-format json --workspace --tests --benches"])
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
- ;; (lsp-rust-analyzer-inlay-hints-mode 1)
 
  (setq gc-cons-threshold 1000000000)
  (setq message-log-max 3000)
@@ -244,7 +234,10 @@
  (map! :leader :desc "Jump to bookmark with tag" :n "m t" #'bmkp-some-tags-jump)
  (map! :leader :desc "Edit bookmark tag" :n "m T" #'bmkp-edit-tags))
 
-(after! vertico-posframe (setq vertico-posframe-width 200))
+(after! vertico-posframe
+  (setq vertico-posframe-width 200)
+  (setq vertico-posframe-height 40)
+  )
 
 (use-package!
  treemacs
@@ -252,9 +245,10 @@
 
 (use-package! restclient)
 
-(setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-dracula)
 
-(setq doom-font (font-spec :weight 'semi-bold :family "JetBrainsMono Nerd Font" :size 17))
+(setq doom-font
+      (font-spec :weight 'semi-bold :family "JetBrainsMono Nerd Font" :size 17))
 
 (setq display-line-numbers-type 'relative)
 
@@ -373,8 +367,7 @@
 (use-package! shell-maker)
 (use-package!
  chatgpt-shell
- :config
- (setq chatgpt-shell-model-version "gpt-4")
+ :config (setq chatgpt-shell-model-version "gpt-4")
  (setq chatgpt-shell-openai-key
        (auth-source-pick-first-password :host "api.openai.com")))
 
@@ -522,20 +515,25 @@
 (startup-layout)
 (magit-wip-mode)
 
-(use-package! obsidian
-  :config
-  (obsidian-specify-path "~/Documents/default")
-  (global-obsidian-mode 1)
-  :custom
-  ;; This directory will be used for `obsidian-capture' if set.
-  (obsidian-inbox-directory "emacs-inbox")
-  :bind (:map obsidian-mode-map
+(use-package!
+ obsidian
+ :config
+ (obsidian-specify-path "~/Documents/default")
+ (global-obsidian-mode 1)
+ :custom
+ ;; This directory will be used for `obsidian-capture' if set.
+ (obsidian-inbox-directory "emacs-inbox")
+ :bind
+ (:map
+  obsidian-mode-map
   ;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
   ("C-c C-o" . obsidian-follow-link-at-point)
   ;; Jump to backlinks
   ("C-c C-b" . obsidian-backlink-jump)
   ;; If you prefer you can use `obsidian-insert-link'
   ("C-c C-l" . obsidian-insert-wikilink)))
+
+(use-package! consult-gh)
 
 (after!
  company
