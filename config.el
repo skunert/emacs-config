@@ -108,6 +108,7 @@
 (after!
  vertico
  (map! :map minibuffer-local-map "C-e" #'+vertico/embark-export-write)
+ (setq! vertico-count 45)
  (map! :map minibuffer-local-map "C-h" #'embark-bindings))
 
 (after! org-roam (setq org-agenda-files '("~/org/roam/daily" "~/org/roam")))
@@ -129,6 +130,7 @@
  org-excalidraw
  :config (setq org-excalidraw-directory "~/org/excalidraw"))
 
+(use-package! balanced-windows :config (balanced-windows-mode))
 (after!
  orderless
  (setq orderless-matching-styles '(orderless-literal orderless-initialism)))
@@ -231,13 +233,14 @@
  bookmark+
  :init (require 'bookmark+)
  :config
+ (setq bookmark-save-flag 1)
  (map! :leader :desc "Jump to bookmark with tag" :n "m t" #'bmkp-some-tags-jump)
  (map! :leader :desc "Edit bookmark tag" :n "m T" #'bmkp-edit-tags))
 
-(after! vertico-posframe
-  (setq vertico-posframe-width 200)
-  (setq vertico-posframe-height 40)
-  )
+(after!
+ vertico-posframe
+ (setq vertico-posframe-width 200)
+ (setq vertico-posframe-height 40))
 
 (use-package!
  treemacs

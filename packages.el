@@ -73,7 +73,7 @@
 (package! org-excalidraw
   :recipe (:host github :repo "wdavew/org-excalidraw")
 )
-
+(package! balanced-windows)
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern")
 )
