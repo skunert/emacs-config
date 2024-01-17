@@ -7,7 +7,7 @@
  (map! :map rustic-mode-map :localleader ("o" #'rustic-open-dependency-file))
  (setq rustic-lsp-server 'rust-analyzer)
  (setq rustic-format-on-save t)
- (setq rustic-analyzer-command '("rust-analyzer-wrapper"))
+;; (setq rustic-analyzer-command '("rust-analyzer-wrapper"))
  (smartparens-mode nil))
 
 (use-package!
@@ -38,6 +38,8 @@
  (setq lsp-headerline-breadcrumb-mode 1)
  (setq lsp-response-timeout 20)
  (setq lsp-rust-analyzer-lru-capacity 256)
+ (setq lsp-rust-analyzer-lru-capacity 256)
+ (setq lsp-rust-analyzer-rustfmt-extra-args ["+nightly"])
  (setq lsp-rust-analyzer-diagnostics-disabled
        ["macro-error"
         "unresolved-proc-macro"
@@ -52,6 +54,15 @@
  ; 1MB
  (setq read-process-output-max (* 2048 1024))
  (setq lsp-idle-delay 1.0)
+
+ (map!
+  :leader
+  :mode rustic-mode
+  :desc "Open external documentation"
+  :n
+  "o d"
+  #'lsp-rust-analyzer-open-external-docs)
+
  (map!
   :leader
   :mode rustic-mode
@@ -367,6 +378,19 @@
 ;;  (add-to-list 'consult-gh-default-orgs-list "paritytech")
 ;;  (setq consult-gh-default-clone-directory "~/work/repos"))
 
+;; accept completion from copilot and fallback to company
+(use-package!
+ copilot
+ :hook (prog-mode . copilot-mode)
+ :bind
+ (:map
+  copilot-completion-map
+  ("<tab>" . 'copilot-accept-completion)
+  ("TAB" . 'copilot-accept-completion)
+  ("C-TAB" . 'copilot-accept-completion-by-word)
+  ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+(after! copilot (add-to-list 'copilot-major-mode-alist '("rustic" . "rust")))
 (use-package! shell-maker)
 (use-package!
  chatgpt-shell

@@ -77,10 +77,14 @@
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern")
 )
+(package! copilot
+  :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
 )
+
+(package! doom-modeline :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
 
 (package! org-super-agenda
   :recipe (:host github :repo "alphapapa/org-super-agenda")
