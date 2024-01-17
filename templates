@@ -6,6 +6,8 @@ org-mode
 (log "* " q " :log:")
 
 rustic-mode
-(skunert-log "tracing::info!(target: \"skunert\", \"\")")
-(bt-trace "tracing::info!(target: \"skunert\", \"backtrace: {:#?}\", std::backtrace::Backtrace::force_capture());")
+(skunert-trace "tracing::info!(target: \"skunert\", \"\");")
+(bt-trace "tracing::info!(target: \"skunert\", \"{:#?}\", std::backtrace::Backtrace::force_capture());")
+(skunert-log "log::info!(target: \"skunert\", \"\");")
+(bt-log "log::info!(target: \"skunert\", \"{:#?}\", std::backtrace::Backtrace::force_capture());")
 (tracing "tracing::" p "!(target: " (p "LOG_TARGET") ", \"" q "\")")

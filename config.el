@@ -36,6 +36,7 @@
  (setq lsp-enable-file-watchers nil)
  (setq lsp-headerline-breadcrumb-enable t)
  (setq lsp-headerline-breadcrumb-mode 1)
+ (setq lsp-headerline-breadcrumb-segments '(symbols))
  (setq lsp-response-timeout 20)
  (setq lsp-rust-analyzer-lru-capacity 256)
  (setq lsp-rust-analyzer-lru-capacity 256)
@@ -283,6 +284,15 @@
 ;; Save all buffers when emacs looses the focus
 (add-hook 'focus-out-hook 'save-all)
 
+(after!
+  magit
+  (setq ghub-graphql-items-per-request 10)
+  (setq magit-diff-highlight-indentation nil)
+  (setq magit-diff-highlight-trailing nil)
+  (setq magit-diff-paint-whitespace nil)
+  (setq magit-diff-highlight-hunk-body nil)
+  (setq magit-diff-refine-hunk nil)
+)
 
 (use-package!
  magit-delta
