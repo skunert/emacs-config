@@ -7,8 +7,7 @@
  (map! :map rustic-mode-map :localleader ("o" #'rustic-open-dependency-file))
  (setq rustic-lsp-server 'rust-analyzer)
  (setq rustic-format-on-save t)
- (setq rustic-rustfmt-args '("+nightly"))
-;; (setq rustic-analyzer-command '("rust-analyzer-wrapper"))
+ (setq rustic-rustfmt-args '"+nightly")
  (smartparens-mode nil))
 
 
