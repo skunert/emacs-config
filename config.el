@@ -139,9 +139,6 @@
 
 
 (setq text-quoting-style "grave")
-(use-package!
- org-excalidraw
- :config (setq org-excalidraw-directory "~/org/excalidraw"))
 
 (use-package! olivetti)
 (use-package! balanced-windows :config (balanced-windows-mode))
@@ -259,8 +256,6 @@
 (use-package!
  treemacs
  :config (treemacs-follow-mode 1) (treemacs-project-follow-mode 1))
-
-(use-package! restclient)
 
 (setq doom-theme 'doom-dracula)
 
