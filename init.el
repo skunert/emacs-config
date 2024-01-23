@@ -32,7 +32,7 @@
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;; window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
-       zen
+       ;; zen
 
        :term
        vterm

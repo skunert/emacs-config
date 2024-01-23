@@ -67,13 +67,12 @@
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
 
-(package! restclient
-  :recipe (:host github :repo "pashky/restclient.el"))
-
-(package! org-excalidraw
-  :recipe (:host github :repo "wdavew/org-excalidraw")
-)
 (package! balanced-windows)
+
+
+(package! olivetti
+  :recipe (:host github :repo "rnkn/olivetti")
+)
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern")
 )

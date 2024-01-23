@@ -11,6 +11,7 @@
 ;; (setq rustic-analyzer-command '("rust-analyzer-wrapper"))
  (smartparens-mode nil))
 
+
 (use-package!
  lsp-ui
  :config
@@ -143,6 +144,7 @@
  org-excalidraw
  :config (setq org-excalidraw-directory "~/org/excalidraw"))
 
+(use-package! olivetti)
 (use-package! balanced-windows :config (balanced-windows-mode))
 (after!
  orderless
@@ -303,6 +305,7 @@
 (add-hook 'magit-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'code-review-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'rustic-mode-hook (lambda () (turn-off-smartparens-mode)))
+(add-hook 'rustic-mode-hook (lambda () (olivetti-mode 1)))
 ;; Autosave to the file directly
 (auto-save-visited-mode 1)
 
