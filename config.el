@@ -158,11 +158,6 @@
 (map! :leader :desc "Search with deadgrep" :n "s R" #'deadgrep)
 
 (use-package!
- bufler
- :config (setq! bufler-workspace-mode t)
- (map! :leader :desc "Bufler switch buffer" :n "b B" #'bufler-switch-buffer))
-
-(use-package!
  tempel
  :config
  (setq! global-tempel-abbrev-mode 1)
@@ -259,8 +254,16 @@
 
 (setq doom-theme 'doom-dracula)
 
-(setq doom-font
-      (font-spec :weight 'semi-bold :family "JetBrainsMono Nerd Font" :size 17))
+(if (eq system-type 'darwin)
+  (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+  (setq doom-font (font-spec :weight 'semi-bold :family "JetBrainsMono Nerd Font" :size 17))
+)
+
+(unless (eq system-type 'darwin)
+ (setq default-frame-alist '((undecorated . t)))
+)
+
+
 
 (setq display-line-numbers-type 'relative)
 
@@ -379,13 +382,6 @@
 
 (setq +org-capture-todo-file "roam/inbox.org")
 
-;; (use-package!
-;;  consult-gh
-;;  :config
-;;  (add-to-list 'consult-gh-default-orgs-list "skunert")
-;;  (add-to-list 'consult-gh-default-orgs-list "paritytech")
-;;  (setq consult-gh-default-clone-directory "~/work/repos"))
-
 ;; accept completion from copilot and fallback to company
 (use-package!
  copilot
@@ -454,7 +450,6 @@
               (line-number-at-pos point-end)))))
     (org-capture-browse-at-remote--file-url filepath start-line end-line)))
 
-(setq default-frame-alist '((undecorated . t)))
 (defun org-toggle-emphasis ()
   "Toggle hiding/showing of org emphasize markers."
   (interactive)
@@ -540,14 +535,6 @@
             (org-appear-mode 1))
           100)
 
-(defun startup-layout ()
-  (interactive)
-  (delete-other-windows)
-  (split-window-horizontally) ;; -> |
-  (split-window-horizontally) ;; -> |
-  (balance-windows))
-
-(startup-layout)
 (magit-wip-mode)
 
 (use-package!
