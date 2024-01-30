@@ -7,7 +7,7 @@
  (map! :map rustic-mode-map :localleader ("o" #'rustic-open-dependency-file))
  (setq rustic-lsp-server 'rust-analyzer)
  (setq rustic-format-on-save t)
- (setq rustic-rustfmt-args '"+nightly")
+ (setq rustic-rustfmt-args ' "+nightly")
  (smartparens-mode nil))
 
 
@@ -38,7 +38,7 @@
  (setq lsp-headerline-breadcrumb-enable t)
  (setq lsp-headerline-breadcrumb-mode 1)
  (setq lsp-headerline-breadcrumb-segments '(symbols))
- (setq lsp-response-timeout 20)
+ (setq lsp-response-timeout 7)
  (setq lsp-rust-analyzer-lru-capacity 256)
  (setq lsp-rust-analyzer-lru-capacity 256)
  (setq lsp-rust-analyzer-rustfmt-extra-args ["+nightly"])
@@ -120,7 +120,8 @@
 ;; Customize keybindings for export
 (after!
  vertico
- (map! :map minibuffer-local-map "C-e" #'+vertico/embark-export-write)
+ (map! :map minibuffer-local-map "C-e" #'embark-export)
+ (map! :map minibuffer-local-map "C-w" #'+vertico/embark-export-write)
  (setq! vertico-count 45)
  (map! :map minibuffer-local-map "C-h" #'embark-bindings))
 
@@ -141,6 +142,8 @@
 (setq text-quoting-style "grave")
 
 (use-package! olivetti)
+(after! olivetti (remove-hook 'olivetti-mode-on-hook 'visual-line-mode))
+
 (use-package! balanced-windows :config (balanced-windows-mode))
 (after!
  orderless
@@ -171,6 +174,7 @@
 
  (map! :map tempel-map "S-<tab>" #'tempel-previous))
 
+(set-popup-rule! "^ ?\\*Treemacs" :ignore t)
 (use-package!
  vterm-toggle
  :config
@@ -255,14 +259,15 @@
 (setq doom-theme 'doom-dracula)
 
 (if (eq system-type 'darwin)
-  (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
-  (setq doom-font (font-spec :weight 'semi-bold :family "JetBrainsMono Nerd Font" :size 17))
-)
+    (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+  (setq doom-font
+        (font-spec
+         :weight 'semi-bold
+         :family "JetBrainsMono Nerd Font"
+         :size 17)))
 
 (unless (eq system-type 'darwin)
- (setq default-frame-alist '((undecorated . t)))
-)
-
+  (setq default-frame-alist '((undecorated . t))))
 
 
 (setq display-line-numbers-type 'relative)
@@ -285,14 +290,13 @@
 (add-hook 'focus-out-hook 'save-all)
 
 (after!
-  magit
-  (setq ghub-graphql-items-per-request 10)
-  (setq magit-diff-highlight-indentation nil)
-  (setq magit-diff-highlight-trailing nil)
-  (setq magit-diff-paint-whitespace nil)
-  (setq magit-diff-highlight-hunk-body nil)
-  (setq magit-diff-refine-hunk nil)
-)
+ magit
+ (setq ghub-graphql-items-per-request 10)
+ (setq magit-diff-highlight-indentation nil)
+ (setq magit-diff-highlight-trailing nil)
+ (setq magit-diff-paint-whitespace nil)
+ (setq magit-diff-highlight-hunk-body nil)
+ (setq magit-diff-refine-hunk nil))
 
 (use-package!
  magit-delta
