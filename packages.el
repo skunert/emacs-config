@@ -61,9 +61,6 @@
 (package! shell-maker
   :recipe (:host github :repo "xenodium/chatgpt-shell"))
 
-(package! vterm-toggle
-  :recipe (:host github :repo "jixiuf/vterm-toggle"))
-
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
 
@@ -73,21 +70,10 @@
 (package! olivetti
   :recipe (:host github :repo "rnkn/olivetti")
 )
-(package! org-modern
-  :recipe (:host github :repo "minad/org-modern")
-)
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
 
-(package! org-appear
-  :recipe (:host github :repo "awth13/org-appear")
-)
-
 (package! doom-modeline :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
-
-(package! org-super-agenda
-  :recipe (:host github :repo "alphapapa/org-super-agenda")
-)
 
 (package! consult-gh
   :recipe (:host github :repo "armindarvish/consult-gh")
@@ -96,10 +82,6 @@
 (package! dogears
   :recipe (:host github :repo "alphapapa/dogears.el"))
 
-
-(package! org-ql
-  :recipe (:host github :repo "alphapapa/org-ql")
-)
 
 (package! elisp-autofmt)
 (package! tempel)
@@ -110,6 +92,4 @@
 (package! zoxide)
 
 (unpin! consult-lsp)
-(unpin! org-roam)
 (unpin! code-review)
-(package! org-roam-ui)

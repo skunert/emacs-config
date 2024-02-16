@@ -1,10 +1,3 @@
-org-mode
-(src "#+BEGIN_SRC rust" n q n "#+END_SRC")
-(A "[#A]")
-(B "[#B]")
-(C "[#C]")
-(log "* " q " :log:")
-
 rustic-mode
 (skunert-trace "tracing::info!(target: \"skunert\", \"\");")
 (bt-trace "tracing::info!(target: \"skunert\", \"{:#?}\", std::backtrace::Backtrace::force_capture());")
