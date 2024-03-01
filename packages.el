@@ -64,6 +64,9 @@
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
 
+(package! difftastic
+  :recipe (:host github :repo "pkryger/difftastic.el"))
+
 (package! balanced-windows)
 
 
