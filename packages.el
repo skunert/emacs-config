@@ -49,6 +49,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! evil-snipe :disable t)
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
 

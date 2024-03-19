@@ -59,6 +59,23 @@
  (setq read-process-output-max (* 2048 1024))
  (setq lsp-idle-delay 1.0)
 
+;; Disable evil-snipe, because we want to use avy-goto-char-timer instead
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+
+;; Remap 's' to use avy
+(define-key evil-motion-state-map "s" 'avy-goto-char-timer)
+(define-key evil-normal-state-map "s" 'avy-goto-char-timer)
+(setq! avy-all-windows t)
+(defun avy-action-embark (pt)
+  (unwind-protect
+      (save-excursion
+        (goto-char pt)
+        (embark-act))
+    (select-window
+     (cdr (ring-ref avy-ring 0))))
+  t)
+
+(setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark)
  (map!
   :leader
   :mode rustic-mode
@@ -200,7 +217,7 @@
 (setq doom-theme 'doom-dracula)
 
 (if (eq system-type 'darwin)
-    (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+    (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12))
   (setq doom-font
         (font-spec
          :weight 'semi-bold
