@@ -56,11 +56,11 @@
 (package! obsidian
   :recipe (:host github :repo "licht1stein/obsidian.el"))
 
-(package! chatgpt-shell
-  :recipe (:host github :repo "xenodium/chatgpt-shell"))
+(package! gptel)
+(package! gptel-extensions
+  :recipe (:host github :repo "kamushadenes/gptel-extensions.el"))
 
-(package! shell-maker
-  :recipe (:host github :repo "xenodium/chatgpt-shell"))
+(package! lacarte)
 
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))

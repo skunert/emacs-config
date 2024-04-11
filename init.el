@@ -109,6 +109,7 @@
  ;; If there is more than one, they won't work right.
  )
 
+(setenv "LSP_USE_PLISTS" "1")
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
   (or

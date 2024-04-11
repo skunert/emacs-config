@@ -56,26 +56,24 @@
  (setq gc-cons-threshold 1000000000)
  (setq message-log-max 3000)
  ; 1MB
- (setq read-process-output-max (* 2048 1024))
  (setq lsp-idle-delay 1.0)
+(add-hook '+lsp-optimization-mode-hook
+          (lambda ()
+            (if (symbol-value '+lsp-optimization-mode)
+            (setq-default read-process-output-max (* 4096 1024)))))
+ ;; Disable evil-snipe, because we want to use avy-goto-char-timer instead
+ (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
-;; Disable evil-snipe, because we want to use avy-goto-char-timer instead
-(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+ ;; Remap 's' to use avy
+ (setq! avy-all-windows t)
+ (defun avy-action-embark (pt)
+   (unwind-protect
+       (save-excursion
+         (goto-char pt)
+         (embark-act))
+     (select-window (cdr (ring-ref avy-ring 0))))
+   t)
 
-;; Remap 's' to use avy
-(define-key evil-motion-state-map "s" 'avy-goto-char-timer)
-(define-key evil-normal-state-map "s" 'avy-goto-char-timer)
-(setq! avy-all-windows t)
-(defun avy-action-embark (pt)
-  (unwind-protect
-      (save-excursion
-        (goto-char pt)
-        (embark-act))
-    (select-window
-     (cdr (ring-ref avy-ring 0))))
-  t)
-
-(setf (alist-get ?. avy-dispatch-alist) 'avy-action-embark)
  (map!
   :leader
   :mode rustic-mode
@@ -127,6 +125,8 @@
 (after!
  evil
  (setq! evil-snipe-scope 'visible evil-kill-on-visual-paste nil)
+ (define-key evil-motion-state-map "s" 'avy-goto-char-timer)
+ (define-key evil-normal-state-map "s" 'avy-goto-char-timer)
  (map! :mode rustic-mode :m [tab] #'ts-fold-toggle))
 
 ;; Customize keybindings for export
@@ -150,7 +150,12 @@
 (setq text-quoting-style "grave")
 
 (use-package! olivetti)
-(after! olivetti (remove-hook 'olivetti-mode-on-hook 'visual-line-mode) (olivetti-set-width 130))
+(after!
+ olivetti
+ (remove-hook 'olivetti-mode-on-hook 'visual-line-mode)
+ (olivetti-set-width 130))
+(add-hook 'olivetti-mode-hook (lambda () (olivetti-set-width 130)))
+
 
 (use-package! balanced-windows :config (balanced-windows-mode))
 (after!
@@ -186,7 +191,8 @@
 (set-popup-rule! "^ ?\\*Treemacs" :ignore t)
 
 (after!
- vterm (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay)
+ vterm
+ (add-hook 'vterm-mode-hook #'evil-collection-vterm-escape-stay)
  ;; vterm should not be allowed to mess with out cursor https://github.com/akermu/emacs-libvterm/issues/313#issuecomment-1183650463
  (advice-add
   #'vterm--redraw
@@ -337,26 +343,26 @@
   ("C-TAB" . 'copilot-accept-completion-by-word)
   ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
+(use-package! gptel :config (setq! gptel-model "gpt-4-0125-preview"))
 (after! copilot (add-to-list 'copilot-major-mode-alist '("rustic" . "rust")))
-(use-package! shell-maker)
-(use-package!
- chatgpt-shell
- :config (setq chatgpt-shell-model-version "gpt-4")
- (setq chatgpt-shell-openai-key
-       (auth-source-pick-first-password :host "api.openai.com")))
 
 (require 'browse-at-remote)
 
-(use-package! difftastic
-  :demand t
-  :bind (:map magit-blame-read-only-mode-map
-         ("D" . difftastic-magit-show)
-         ("S" . difftastic-magit-show))
-  :config
-  (eval-after-load 'magit-diff
-    '(transient-append-suffix 'magit-diff '(-1 -1)
-       [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
-        ("S" "Difftastic show" difftastic-magit-show)])))
+(use-package! lacarte)
+(use-package!
+ difftastic
+ :demand t
+ :bind
+ (:map
+  magit-blame-read-only-mode-map
+  ("D" . difftastic-magit-show)
+  ("S" . difftastic-magit-show))
+ :config
+ (eval-after-load 'magit-diff
+   '(transient-append-suffix
+     'magit-diff '(-1 -1)
+     [("D" "Difftastic diff (dwim)" difftastic-magit-diff)
+      ("S" "Difftastic show" difftastic-magit-show)])))
 
 (magit-wip-mode)
 
