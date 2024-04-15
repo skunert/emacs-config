@@ -56,6 +56,8 @@
 (package! obsidian
   :recipe (:host github :repo "licht1stein/obsidian.el"))
 
+(package! dirvish)
+
 (package! gptel)
 (package! gptel-extensions
   :recipe (:host github :repo "kamushadenes/gptel-extensions.el"))

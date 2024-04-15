@@ -28,6 +28,57 @@
  (dogears-mode 1)
  (map! :leader :desc "Dogears go" :n "f d" #'dogears-go))
 
+(use-package!
+ dirvish
+ :custom
+ (dirvish-quick-access-entries ; It's a custom option, `setq' won't work
+  '(("h" "~/" "Home")
+    ("d" "~/Downloads/" "Downloads")
+    ("p" "~/work/repos/polkadot-sdk" "Polkadot")
+    ("c" "~/work/zombienet/current_debug" "Debug Directory")
+    ("e" "~/.doom" "Doom")))
+ :config (setq dirvish-hide-details nil)
+ ;; Don't worry, Dirvish is still performant even if you enable all these attributes
+ (setq dirvish-attributes
+       '(vc-state subtree-state
+                  nerd-icons
+                  collapse
+                  git-msg
+                  file-time
+                  file-size))
+ (setq dirvish-cache-dir (concat doom-cache-dir "dirvish/"))
+ (set-popup-rule! "^ ?\\*Dirvish.*" :ignore t)
+ (map!
+  :map dirvish-mode-map
+  :n
+  "?"
+  #'dirvish-dispatch
+  :n
+  "a"
+  #'dirvish-quick-access
+  :ng
+  "i"
+  #'dirvish-file-info-menu
+  :ng
+  "y"
+  #'dirvish-yank-menu
+  :ng
+  "TAB"
+  #'dirvish-subtree-toggle
+  :ng
+  "l"
+  #'dirvish-layout-toggle
+  :ng
+  "l"
+  #'dirvish-
+  :ng
+  "h"
+  #'dirvish-history-jump
+  :ng
+  "M-e"
+  #'dirvish-emerge-menu))
+
+(after! dirvish (dirvish-override-dired-mode))
 (after! marginalia (setq marginalia-align 'right))
 
 (after!
@@ -41,7 +92,6 @@
  (setq lsp-headerline-breadcrumb-mode 1)
  (setq lsp-headerline-breadcrumb-segments '(symbols))
  (setq lsp-response-timeout 7)
- (setq lsp-rust-analyzer-lru-capacity 256)
  (setq lsp-rust-analyzer-lru-capacity 256)
  (setq lsp-rust-analyzer-rustfmt-extra-args ["+nightly"])
  (setq lsp-rust-analyzer-diagnostics-disabled
@@ -57,10 +107,11 @@
  (setq message-log-max 3000)
  ; 1MB
  (setq lsp-idle-delay 1.0)
-(add-hook '+lsp-optimization-mode-hook
-          (lambda ()
-            (if (symbol-value '+lsp-optimization-mode)
-            (setq-default read-process-output-max (* 4096 1024)))))
+ (add-hook
+  '+lsp-optimization-mode-hook
+  (lambda ()
+    (if (symbol-value '+lsp-optimization-mode)
+        (setq-default read-process-output-max (* 4096 1024)))))
  ;; Disable evil-snipe, because we want to use avy-goto-char-timer instead
  (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
