@@ -99,3 +99,4 @@
 
 (unpin! consult-lsp)
 (unpin! code-review)
+(unpin! doom-modeline)
