@@ -36,7 +36,7 @@
     ("d" "~/Downloads/" "Downloads")
     ("p" "~/work/repos/polkadot-sdk" "Polkadot")
     ("c" "~/work/zombienet/current_debug" "Debug Directory")
-    ("e" "~/.doom" "Doom")))
+    ("e" "~/.doom.d" "Doom")))
  :config (setq dirvish-hide-details nil)
  ;; Don't worry, Dirvish is still performant even if you enable all these attributes
  (setq dirvish-attributes
@@ -307,6 +307,7 @@
 (after!
  magit
  (setq ghub-graphql-items-per-request 10)
+ (setq magit-list-refs-sortby "-creatordate")
  (setq magit-diff-highlight-indentation nil)
  (setq magit-diff-highlight-trailing nil)
  (setq magit-diff-paint-whitespace nil)
