@@ -49,7 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! evil-snipe :disable t)
 (package! bookmark+
   :recipe (:host github :repo "emacsmirror/bookmark-plus"))
 
@@ -57,12 +56,17 @@
   :recipe (:host github :repo "licht1stein/obsidian.el"))
 
 (package! dirvish)
+(package! jinx)
 
 (package! gptel)
 (package! gptel-extensions
   :recipe (:host github :repo "kamushadenes/gptel-extensions.el"))
 
 (package! lacarte)
+
+
+(package! evil-snipe
+  :disable t)
 
 (package! bufler
   :recipe (:host github :repo "alphapapa/bufler.el"))
@@ -88,6 +92,8 @@
 (package! dogears
   :recipe (:host github :repo "alphapapa/dogears.el"))
 
+(package! casual-dired
+  :recipe (:host github :repo "kickingvegas/casual-dired"))
 
 (package! elisp-autofmt)
 (package! tempel)

@@ -101,6 +101,14 @@
         "mismatched-arg-count"])
  (setq lsp-rust-analyzer-cargo-run-build-scripts t)
  (setq lsp-rust-analyzer-server-display-inlay-hints nil)
+ (unless (eq system-type 'darwin)
+   (setq
+    lsp-rust-analyzer-cargo-override-command
+    ["sh"
+     "-c"
+     "SKIP_WASM_BUILD=1 cargo check --message-format json --target-dir ra-target --workspace"]))
+
+
  (evil-define-key 'normal rustic-mode-map "J" #'lsp-rust-analyzer-join-lines)
 
  (setq gc-cons-threshold 1000000000)
@@ -207,6 +215,13 @@
  (olivetti-set-width 130))
 (add-hook 'olivetti-mode-hook (lambda () (olivetti-set-width 130)))
 
+(use-package!
+ jinx
+ :hook (emacs-startup . global-jinx-mode)
+ :bind (("M-$" . jinx-correct) ("C-M-$" . jinx-languages)))
+(after!
+ jinx
+ (map! :leader :desc "Suggest correction" :n "v s" #'jinx-correct))
 
 (use-package! balanced-windows :config (balanced-windows-mode))
 (after!
@@ -271,7 +286,7 @@
  treemacs
  :config (treemacs-follow-mode 1) (treemacs-project-follow-mode 1))
 
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'catppuccin)
 
 (if (eq system-type 'darwin)
     (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 12))
